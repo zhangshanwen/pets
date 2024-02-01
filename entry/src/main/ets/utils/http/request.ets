@@ -1,0 +1,66 @@
+import http from '@ohos.net.http';
+//导入预定好的数据响应格式
+import Response from './response'
+
+
+//导出去一个请求函数，这样开发者就可以像axios一样的风格请求数据
+export function request(url: string, method: http.RequestMethod, data?: any): Promise<Response> {
+  //定义一个后台请求的基地址
+  const BASE_URL = "http://192.168.0.103:17017/api/"
+  let httpRequest = http.createHttp();
+  let responseResult = httpRequest.request(BASE_URL + url, {
+    method: method,
+    header: {
+      'Content-Type': 'application/json'
+    },
+    //携带额外参数
+    extraData: JSON.stringify(data),
+    // 可选，指定返回数据的类型
+    // expectDataType: http.HttpDataType.STRING,
+    // 可选，默认为true
+    // usingCache: true,
+    // 可选，默认为1
+    // priority: 1,
+    // 可选，默认为60000ms
+    // connectTimeout: 60000,
+    // readTimeout: 60000,
+    // 可选，协议类型默认值由系统自动指定
+    // usingProtocol: http.HttpProtocol.HTTP1_1,
+  });
+
+  let response = new Response();
+  // 处理数据，并返回
+  return responseResult.then((value: http.HttpResponse) => {
+    if (value.responseCode === 200) {
+      // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
+      // 这里建议和后端的保持一致
+      let res: Response = JSON.parse(`${value.result}`);
+      response.data = res.data;
+      response.code = res.code;
+      response.message = res.message;
+      return response
+    } else {
+      throw new Error('系统错误');
+    }
+    return response
+  }).catch((err) => {
+    AlertDialog.show({
+      title: '系统错误',
+      message: '',
+      autoCancel: true,
+      alignment: DialogAlignment.Bottom,
+      offset: { dx: 0, dy: -20 },
+      gridCount: 3,
+      confirm: {
+        value: '确认',
+        action: () => {
+        }
+      },
+    })
+    throw err
+  }).finally(()=>{
+    httpRequest.destroy()
+  });
+
+}
+
