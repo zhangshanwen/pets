@@ -1,10 +1,14 @@
 /**
  * Login page component.
  */
-import { PasswordLoginButton } from './PasswordLoginButton';
-import { VerificationCodeLoginButton } from './VerificationCodeLoginButton';
-import { VerificationCodeMsgSendButton } from './VerificationCodeMsgSendButton';
+import { PasswordLoginButton } from './components/PasswordLoginButton';
+import { PasswordTextInput } from './components/PasswordTextInput';
+import { PhoneNumberTextInput } from './components/PhoneNumberTextInput';
+import { SmsCodeTextInput } from './components/SmsCodeTextInput';
+import { VerificationCodeLoginButton } from './components/VerificationCodeLoginButton';
+import { VerificationCodeMsgSendButton } from './components/VerificationCodeMsgSendButton';
 
+// 登录模块
 @Component
 export struct LoginComponent {
   @StorageProp('isMinHeight') isMinHeight: boolean = false;
@@ -13,6 +17,7 @@ export struct LoginComponent {
   @State verificationCode: string = '';
   @State verificationCodeType: boolean = false;
   @State isSendCode: boolean = false;
+  @State timeRemaining: number = 60;
 
   build() {
     GridRow({
@@ -37,55 +42,32 @@ export struct LoginComponent {
         }
       }) {
         Column() {
-          TextInput({ placeholder: '请输入手机号', text: this.phoneNumber })
-            .width('100%')
-            .height('48vp')
-            .placeholderColor('#99182431')
-            .placeholderFont({ size: '16fp' })
-            .backgroundColor('#00FFFFFF')
-            .fontSize('16fp')
-            .padding({ left: '0vp' })
-            .border({
-              width: { bottom: '1vp' },
-              color: '#33000000',
-              radius: '0vp'
+          PhoneNumberTextInput({ phoneNumber: $phoneNumber })
+          if (!this.verificationCodeType) {
+            PasswordTextInput({ password: $password })
+          } else if (this.verificationCodeType && this.isSendCode) {
+            SmsCodeTextInput({
+              verificationCode: $verificationCode,
+              phoneNumber: this.phoneNumber,
+              timeRemaining: $timeRemaining
             })
-            .onChange((value: string) => {
-              this.phoneNumber = value;
-            })
+          } else {
 
-          TextInput({ placeholder: '请输入密码', text: this.password })
-            .width('100%')
-            .height('48vp')
-            .placeholderColor('#99182431')
-            .placeholderFont({ size: '16fp' })
-            .fontSize('16fp')
-            .backgroundColor('#00FFFFFF')
-            .type(InputType.Password)
-            .padding({ left: '0vp' })
-            .border({
-              width: { bottom: '1vp' },
-              color: '#33000000',
-              radius: '0vp'
-            })
-            .margin({ bottom: '28vp' })
-            .onChange((value: string) => {
-              this.password = value;
-            })
+          }
           Row() {
             Image($r('app.media.repeat'))
               .width('24vp')
               .height('24vp')
             Text() {
               if (this.verificationCodeType) {
-                Span('验证码登录')
-              } else {
                 Span('密码登录')
+              } else {
+                Span('验证码登录')
               }
-            }.margin({ left: '1vp' }).onClick(() => {
+            }.margin({ left: '1vp' }).backgroundColor('#F1F3F5').fontColor('#007DFF').onClick(() => {
               this.verificationCodeType = !this.verificationCodeType
             })
-          }.margin({ bottom: '28vp' })
+          }.margin({ bottom: '28vp', top: '28vp' })
 
         }
       }
@@ -105,7 +87,7 @@ export struct LoginComponent {
         if (this.verificationCodeType && this.isSendCode) {
           VerificationCodeLoginButton({ phoneNumber: this.phoneNumber, verificationCode: this.verificationCode })
         } else if (this.verificationCodeType && !this.isSendCode) {
-          VerificationCodeMsgSendButton({ phoneNumber: this.phoneNumber, isSendCode: $this.isSendCode })
+          VerificationCodeMsgSendButton({ phoneNumber: this.phoneNumber, isSendCode: $isSendCode })
         } else {
           PasswordLoginButton({ phoneNumber: this.phoneNumber, password: this.password })
         }

@@ -12,14 +12,14 @@ export function userLogin(data: {
   phone_number: string,
   password: string
 }) {
-  return request(`user/login`, http.RequestMethod.POST, data)
+  return request(`v1/user/login`, http.RequestMethod.POST, data)
 }
 
 export function userLoginByCode(data: {
   phone_number: string,
   code: string
 }) {
-  return request(`user/login/code`, http.RequestMethod.POST, data)
+  return request(`v1/user/login/code`, http.RequestMethod.POST, data)
 }
 
 /**
@@ -28,7 +28,7 @@ export function userLoginByCode(data: {
  * @returns
  */
 export function getUserById(userId) {
-  return request(`user/get/${userId}`, http.RequestMethod.GET)
+  return request(`v1/user/get/${userId}`, http.RequestMethod.GET)
 }
 
 /**
@@ -37,7 +37,7 @@ export function getUserById(userId) {
  * @returns
  */
 export function getUser() {
-  return request('user/get', http.RequestMethod.GET)
+  return request('v1/user/get', http.RequestMethod.GET)
 }
 
 /**
@@ -46,5 +46,5 @@ export function getUser() {
  * @returns
  */
 export function registerUser(data) {
-  return request(`user/register`, http.RequestMethod.POST, data)
+  return request(`v1/user/register`, http.RequestMethod.POST, data)
 }

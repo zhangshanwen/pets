@@ -35,9 +35,16 @@ export function request(url: string, method: http.RequestMethod, data?: any): Pr
       // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
       // 这里建议和后端的保持一致
       let res: Response = JSON.parse(`${value.result}`);
+      if (res.code == -1) {
+        // 登录检验失败,删除登录态
+        // TODO 使用freshToken 重新刷新
+      } else if (res.code == 1) {
+        throw new Error(res.msg)
+      }
       response.data = res.data;
       response.code = res.code;
-      response.message = res.message;
+      response.msg = res.msg;
+      response.req_id = res.req_id;
       return response
     } else {
       throw new Error('系统错误');
@@ -58,7 +65,7 @@ export function request(url: string, method: http.RequestMethod, data?: any): Pr
       },
     })
     throw err
-  }).finally(()=>{
+  }).finally(() => {
     httpRequest.destroy()
   });
 

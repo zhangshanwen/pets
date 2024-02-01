@@ -53,7 +53,7 @@ struct LoginPage {
 
       Text('登录')
         .fontSize('20fp')
-        .fontColor('182431')
+        .fontColor('#182431')
         .fontWeight(500)
     }
     .width('100%')

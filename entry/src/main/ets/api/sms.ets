@@ -3,5 +3,5 @@ import http from '@ohos.net.http';
 import { request } from '../utils/http/request'
 
 export function msgSend(data: { phone_number: string }) {
-  return request(`msg/send`, http.RequestMethod.POST, data)
+  return request(`v1/sms/send`, http.RequestMethod.POST, data)
 }
