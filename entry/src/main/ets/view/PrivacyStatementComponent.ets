@@ -63,7 +63,7 @@ export struct PrivacyStatementComponent {
       right: $r('app.float.gird_row_margin_right')
     })
     .onBreakpointChange((breakpoints) => {
-      console.log(breakpoints);
+      // console.log(breakpoints);
     })
   }
 }

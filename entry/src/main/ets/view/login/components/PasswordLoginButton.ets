@@ -1,5 +1,6 @@
 import { userLogin } from '../../../api/user';
 import { isLoginButtonClickable } from '../../../utils/check'
+import { saveAuthorization } from '../../../utils/user';
 
 @Component
 export struct PasswordLoginButton {
@@ -27,8 +28,8 @@ export struct PasswordLoginButton {
           phone_number: this.phoneNumber,
           password: this.password }).then((res) => {
           // 保存用户登录信息
-          // 跳转至首页
-
+          saveAuthorization(res)
+          console.log("登录成功")
         }).catch(err => {
         })
       })

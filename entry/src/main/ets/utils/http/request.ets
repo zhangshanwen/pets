@@ -1,20 +1,36 @@
 import http from '@ohos.net.http';
 //导入预定好的数据响应格式
 import Response from './response'
+import router from '@ohos.router';
+import { CommonConstants } from '../../common/constants/CommonConstants';
+import { getAuthorization } from '../user';
 
 
 //导出去一个请求函数，这样开发者就可以像axios一样的风格请求数据
-export function request(url: string, method: http.RequestMethod, data?: any): Promise<Response> {
+export function request(url: string, method: http.RequestMethod, data?: {}): Promise<Response> {
   //定义一个后台请求的基地址
-  const BASE_URL = "http://192.168.0.103:17017/api/"
+  const BASE_URL = "http://192.168.1.3:17017/api/"
   let httpRequest = http.createHttp();
+  let header = {
+    'authorization': getAuthorization()
+  }
+  let extraData = ''
+  if ([http.RequestMethod.GET, http.RequestMethod.DELETE, http.RequestMethod.OPTIONS, http.RequestMethod.TRACE, http.RequestMethod.CONNECT].lastIndexOf(method) < 0) {
+    header['Content-Type'] = 'application/json'
+    extraData = JSON.stringify(data)
+  } else {
+    let params = []
+    for (var key in data) {
+      params.push(`${key}=${data[key]}`)
+    }
+    extraData = params.join("&")
+  }
+
   let responseResult = httpRequest.request(BASE_URL + url, {
     method: method,
-    header: {
-      'Content-Type': 'application/json'
-    },
+    header: header,
     //携带额外参数
-    extraData: JSON.stringify(data),
+    extraData: extraData,
     // 可选，指定返回数据的类型
     // expectDataType: http.HttpDataType.STRING,
     // 可选，默认为true
@@ -38,6 +54,9 @@ export function request(url: string, method: http.RequestMethod, data?: any): Pr
       if (res.code == -1) {
         // 登录检验失败,删除登录态
         // TODO 使用freshToken 重新刷新
+        router.pushUrl({
+          url: CommonConstants.LOGIN_PAGE_URL
+        })
       } else if (res.code == 1) {
         throw new Error(res.msg)
       }

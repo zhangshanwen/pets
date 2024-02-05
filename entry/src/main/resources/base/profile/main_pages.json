@@ -1,7 +1,10 @@
 {
   "src": [
     "pages/LoginPage",
+    "pages/HomePage",
+    "pages/UserInfoPage",
     "pages/MinePage",
+    "pages/PetsPage",
     "pages/RegistrationSuccessPage",
     "pages/PrivacyPage",
     "pages/CustomerServicePage"

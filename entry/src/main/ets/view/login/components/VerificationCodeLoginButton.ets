@@ -1,5 +1,6 @@
 import { userLoginByCode } from '../../../api/user';
 import { checkPhoneNumber } from '../../../utils/check'
+import { saveAuthorization } from '../../../utils/user';
 
 // 验证码登录按钮
 @Component
@@ -23,8 +24,7 @@ export struct VerificationCodeLoginButton {
       .onClick(() => {
         userLoginByCode({ phone_number: this.phoneNumber, code: this.verificationCode }).then((res) => {
           // 保存登录态
-          AppStorage.SetOrCreate('pets_authorization', res.data.authorization);
-          AppStorage.SetOrCreate('pets_user_info', res.data.user);
+          saveAuthorization(res)
           console.log("登录成功")
         }).catch()
       })

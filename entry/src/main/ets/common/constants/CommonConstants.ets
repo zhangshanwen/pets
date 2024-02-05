@@ -186,6 +186,10 @@ export class CommonConstants {
    * Mine page url.
    */
   static readonly MINE_PAGE_URL: string = 'pages/MinePage';
+  static readonly LOGIN_PAGE_URL: string = 'pages/LoginPage';
+  static readonly HOME_PAGE_URL: string = 'pages/HomePage';
+  static readonly PETS_PAGE_URL: string = 'pages/PetsPage';
+  static readonly USER_INFO_PAGE_URL: string = 'pages/UserInfoPage';
 
   /**
    * Registration success page url.
@@ -197,7 +201,7 @@ export class CommonConstants {
    * Privacy page url.
    */
   static readonly PRIVACY_PAGE_URL: string = 'pages/PrivacyPage';
-3
+  3
   /**
    * Customer service page url.
    */
@@ -282,4 +286,6 @@ export class CommonConstants {
    * Percent of the column width in detail page.
    */
   static readonly DETAIL_COLUMN_WIDTH_PERCENT: string = '93%';
+  static readonly PETS_AUTHORIZATION: string = 'pets_authorization';
+  static readonly PETS_USERINFO: string = 'pets_user_info';
 }

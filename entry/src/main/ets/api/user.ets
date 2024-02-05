@@ -37,7 +37,7 @@ export function getUserById(userId) {
  * @returns
  */
 export function getUser() {
-  return request('v1/user/get', http.RequestMethod.GET)
+  return request('v1/user', http.RequestMethod.GET)
 }
 
 /**
