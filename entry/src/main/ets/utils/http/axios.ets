@@ -4,9 +4,10 @@ import { AxiosResponse, InternalAxiosRequestConfig, AxiosError } from '@ohos/axi
 import router from '@ohos.router';
 import { CommonConstants } from '../../common/constants/CommonConstants';
 import { getAuthorization } from '../user';
+import { msgSend } from '../../api/sms';
 
 const instance = axios.create({
-  baseURL: "http://192.168.1.3:17017/api/"
+  baseURL: "http://192.168.0.103:17017/api/"
 });
 
 
@@ -28,6 +29,7 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 });
 // 添加响应拦截器
 instance.interceptors.response.use((res: AxiosResponse) => {
+  console.log("返回响应", JSON.stringify(res.data))
   if (res.status === 200) {
     // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
     // 这里建议和后端的保持一致
@@ -38,20 +40,26 @@ instance.interceptors.response.use((res: AxiosResponse) => {
         url: CommonConstants.LOGIN_PAGE_URL
       })
     } else if (res.data.code == 1) {
+      showTip(res.data.msg)
       throw new Error(res.data.msg)
     }
-
     return res.data
   } else {
+    showTip("系统错误")
     throw new Error('系统错误');
   }
-  console.log(`res==========>${res}`)
-  // 对响应数据做点什么
   return res.data;
 }, (error: AxiosError) => {
   // 对响应错误做点什么
+  showTip("系统错误")
+  return Promise.reject(error);
+});
+
+export default instance;
+
+function showTip(msg: string) {
   AlertDialog.show({
-    title: '系统错误',
+    title: msg,
     message: '',
     autoCancel: true,
     alignment: DialogAlignment.Bottom,
@@ -63,7 +71,4 @@ instance.interceptors.response.use((res: AxiosResponse) => {
       }
     },
   })
-  return Promise.reject(error);
-});
-
-export default instance;
+}

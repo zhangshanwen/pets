@@ -1,5 +1,5 @@
-import { getMediaIds, mediaUpload } from '../../api/media'
-import { upload } from '../../api/media_copy'
+import { getMediaIds } from '../../api/media'
+import { uploadAvatar } from '../../api/user'
 import { UserInfo } from '../../common/bean/ListItemData'
 import { copyUriFileToInternalUri } from '../../utils/file'
 import { pickPhoto } from '../../utils/media'
@@ -7,6 +7,7 @@ import { pickPhoto } from '../../utils/media'
 @Component
 export struct AvatarComponent {
   @Consume user: UserInfo
+  @State num: number = 1
 
   build() {
     Row() {
@@ -15,17 +16,20 @@ export struct AvatarComponent {
       }.width("70%").direction(Direction.Ltr)
 
       Row() {
-        Image(this.user.avatar).objectFit(ImageFit.Contain).onClick(() => {
-          pickPhoto(1).then((res => {
-            let num = res.photoUris.length
-            getMediaIds({ num: num }).then((resp) => {
-              // 获取到fileId
-              let file_ids = resp.data.file_ids
-              copyUriFileToInternalUri(res.photoUris[0], file_ids[0])
-              upload(file_ids[0])
-            }).catch()
-          })).catch((err) => {
-            console.log(err, "---------------")
+        Image(this.user.avatar).objectFit(ImageFit.Contain).onClick(async () => {
+          let uri;
+          await pickPhoto(this.num).then(res => {
+            uri = res.photoUris[0]
+          }).catch(() => {
+          })
+          getMediaIds({ num: this.num }).then((resp) => {
+            // 获取到fileId
+            let file_ids = resp.data.file_ids
+            const fileName = `${file_ids[0]}.jpeg`
+            copyUriFileToInternalUri(uri, fileName)
+            uploadAvatar(fileName).then(() => {
+              this.user.avatar = uri
+            })
           })
         })
       }.width("30%").direction(Direction.Rtl)

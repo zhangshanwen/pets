@@ -1,5 +1,5 @@
-
 import instance from '../utils/http/axios'
+import { upload } from './media'
 
 
 /**
@@ -46,4 +46,9 @@ export function getUser() {
  */
 export function registerUser(data) {
   return instance.post(`v1/user/register`, data)
+}
+
+
+export function uploadAvatar(fileName: string) {
+  return upload("v1/user/avatar", fileName)
 }

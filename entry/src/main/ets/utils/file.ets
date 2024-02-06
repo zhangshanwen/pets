@@ -9,7 +9,6 @@ export function readFile(filename: string): string {
   let stat = fs.statSync(file.fd);
   let buf = new ArrayBuffer(stat.size);
   let readLen = fs.readSync(file.fd, buf);
-
   // 关闭文件
   fs.closeSync(file);
   return String.fromCharCode.apply(null, new Uint8Array(buf.slice(0, readLen)))
@@ -26,7 +25,6 @@ export function copyUriFileToInternalUri(uri: string, fileId: string) {
 
 
 export function writeFile(filename: string, content: string) {
-  // 新建并打开文件
   let context = getContext(this) as common.UIAbilityContext;
   let filesDir = context.filesDir;
   let file = fs.openSync(filesDir + "/" + filename, fs.OpenMode.WRITE_ONLY | fs.OpenMode.CREATE)

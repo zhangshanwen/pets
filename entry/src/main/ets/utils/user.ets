@@ -11,7 +11,8 @@ const authorization = 'authorization'
 
 export function saveAuthorization(res) {
   AppStorage.SetOrCreate(petsAuthorization, res.data.authorization);
-  writeFile(authorization,res.data.authorization)
+  console.log("保存登录token", res.data.authorization)
+  writeFile(authorization, res.data.authorization)
   router.pushUrl({
     url: CommonConstants.HOME_PAGE_URL
   })
@@ -30,13 +31,13 @@ export function getAuthorization(): string {
 
 export async function getUserInfo(): Promise<UserInfo> {
   var userInfo: UserInfo = AppStorage.Get(petsUserInfo)
-  if (!userInfo || !userInfo.phone_number ) {
+  if (!userInfo || !userInfo.phone_number) {
     await getUser().then((res => {
       userInfo = res.data
       AppStorage.SetOrCreate(petsUserInfo, userInfo)
     })).catch()
   }
-  if (userInfo.avatar==''){
+  if (userInfo.avatar == '') {
     // @ts-ignore
     userInfo.avatar = $r('app.media.cat')
   }
