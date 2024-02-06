@@ -1,6 +1,5 @@
-import http from '@ohos.net.http';
-//导入封装好的请求
-import { request } from '../utils/http/request'
+
+import instance from '../utils/http/axios'
 
 
 /**
@@ -12,14 +11,14 @@ export function userLogin(data: {
   phone_number: string,
   password: string
 }) {
-  return request(`v1/user/login`, http.RequestMethod.POST, data)
+  return instance.post(`v1/user/login`, data)
 }
 
 export function userLoginByCode(data: {
   phone_number: string,
   code: string
 }) {
-  return request(`v1/user/login/code`, http.RequestMethod.POST, data)
+  return instance.post(`v1/user/login/code`, data)
 }
 
 /**
@@ -28,7 +27,7 @@ export function userLoginByCode(data: {
  * @returns
  */
 export function getUserById(userId) {
-  return request(`v1/user/get/${userId}`, http.RequestMethod.GET)
+  return instance.get(`v1/user/get/${userId}`)
 }
 
 /**
@@ -37,7 +36,7 @@ export function getUserById(userId) {
  * @returns
  */
 export function getUser() {
-  return request('v1/user', http.RequestMethod.GET)
+  return instance.get('v1/user')
 }
 
 /**
@@ -46,5 +45,5 @@ export function getUser() {
  * @returns
  */
 export function registerUser(data) {
-  return request(`v1/user/register`, http.RequestMethod.POST, data)
+  return instance.post(`v1/user/register`, data)
 }

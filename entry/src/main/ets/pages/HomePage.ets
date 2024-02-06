@@ -15,6 +15,8 @@ struct HomePage {
   onPageShow() {
     getUserInfo().then((res) => {
       this.user = res
+    }).catch((err)=>{
+      console.log("请求异常",err.message)
     })
   }
 

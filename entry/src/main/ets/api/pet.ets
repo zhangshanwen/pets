@@ -1,11 +1,11 @@
 import http from '@ohos.net.http';
 import { PetListParam } from '../common/param/PetParam';
 //导入封装好的请求
-import { request } from '../utils/http/request'
+import  instance from '../utils/http/axios'
 
 
-export function petList(data: PetListParam) {
-  return request(`v1/pet`, http.RequestMethod.GET, data)
+export function petList(params: PetListParam) {
+  return instance.get(`v1/pet`, { params })
 }
 
 export function petCreate(data: {
@@ -13,5 +13,5 @@ export function petCreate(data: {
   page_size: number,
   nick_name: string
 }) {
-  return request(`v1/pet`, http.RequestMethod.POST, data)
+  return instance.post(`v1/pet`,  data)
 }

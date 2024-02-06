@@ -5,6 +5,7 @@
     "pages/UserInfoPage",
     "pages/MinePage",
     "pages/PetsPage",
+    "pages/PetSavePage",
     "pages/RegistrationSuccessPage",
     "pages/PrivacyPage",
     "pages/CustomerServicePage"

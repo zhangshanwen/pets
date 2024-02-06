@@ -3,13 +3,13 @@ import http from '@ohos.net.http';
 import Response from './response'
 import router from '@ohos.router';
 import { CommonConstants } from '../../common/constants/CommonConstants';
-import { getAuthorization } from '../user';
+import { getAuthorization, saveAuthorization } from '../user';
 
 
 //导出去一个请求函数，这样开发者就可以像axios一样的风格请求数据
 export function request(url: string, method: http.RequestMethod, data?: {}): Promise<Response> {
   //定义一个后台请求的基地址
-  const BASE_URL = "http://192.168.1.3:17017/api/"
+  const BASE_URL = "http://192.168.1.6:17017/api/"
   let httpRequest = http.createHttp();
   let header = {
     'authorization': getAuthorization()
@@ -57,6 +57,7 @@ export function request(url: string, method: http.RequestMethod, data?: {}): Pro
         router.pushUrl({
           url: CommonConstants.LOGIN_PAGE_URL
         })
+        saveAuthorization('')
       } else if (res.code == 1) {
         throw new Error(res.msg)
       }

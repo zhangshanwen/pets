@@ -21,9 +21,6 @@ export struct PasswordLoginButton {
       .backgroundColor(isLoginButtonClickable(this.phoneNumber, this.password) ?
         '#007DFF' : '#66007DFF')
       .onClick(() => {
-        // router.pushUrl({
-        //   url: CommonConstants.MINE_PAGE_URL
-        // });
         userLogin({
           phone_number: this.phoneNumber,
           password: this.password }).then((res) => {
