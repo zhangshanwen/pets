@@ -23,6 +23,17 @@ export function copyUriFileToInternalUri(uri: string, fileId: string) {
   return
 }
 
+export function copyUrisFileToInternalUri(uris: Array<string>, fileIds: Array<string>) {
+  let context = getContext(this) as common.UIAbilityContext;
+  for (let i = 0; i < uris.length; i++) {
+    var file = fs.openSync(uris[i], fs.OpenMode.READ_ONLY);
+    const filePath = context.cacheDir + "/" + fileIds[i]
+    fs.copyFileSync(file.fd, filePath)
+  }
+
+  return
+}
+
 
 export function writeFile(filename: string, content: string) {
   let context = getContext(this) as common.UIAbilityContext;

@@ -56,3 +56,11 @@ export class Pet {
   intro: string;
   avatar: string;
 }
+
+@Observed
+export class Article {
+  id: number;
+  content: string;
+  categories: Array<string>;
+  cover: string;
+}

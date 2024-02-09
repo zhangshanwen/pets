@@ -1,7 +1,4 @@
-import router from '@ohos.router';
-import MediaQueryModel from '../model/MediaQueryModel';
-import { PrivacyStatementComponent } from '../view/PrivacyStatementComponent';
-import { LoginComponent } from '../view/login/LoginComponent';
+
 import { TitleComponent } from '../view/components/TitleComponent'
 import { Pet } from '../common/bean/ListItemData';
 import { petList } from '../api/pet';
@@ -33,9 +30,6 @@ struct PetsPage {
 
       this.total = res.data.pagination.total
       if (this.form.page_index * this.form.page_size >= this.total) {
-        var pet = new Pet()
-        pet.id = 0
-        this.pets.push(pet)
         this.isGetALl = true
       }
     })

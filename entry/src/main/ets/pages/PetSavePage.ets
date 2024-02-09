@@ -1,6 +1,7 @@
 import { TitleComponent } from '../view/components/TitleComponent'
 import { EditInputComponent } from '../view/components/EditInputComponent';
 import { EditInputAreaComponent } from '../view/components/EditInputAreaComponent';
+import { EditDateComponent } from '../view/components/EditDateComponent';
 
 
 @Entry
@@ -10,6 +11,7 @@ struct PetSavePage {
   @State petId: number = 0
   @State nickName: string = ''
   @State intro: string = ''
+  @State birthDate: string = ''
 
   build() {
     Column() {
@@ -20,6 +22,9 @@ struct PetSavePage {
 
       // 简介
       EditInputAreaComponent({ text: "简介", placeholder: "请输入简介", value: $intro })
+
+      // 出生日期
+      EditDateComponent({ text: "生日", placeholder: "请选择出生日期", value: $birthDate })
     }
 
   }

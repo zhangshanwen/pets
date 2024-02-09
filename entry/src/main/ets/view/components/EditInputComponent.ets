@@ -12,7 +12,7 @@ export struct EditInputComponent {
     Row() {
       Text() {
         Span(this.text)
-      }.width("30%").direction(Direction.Ltr)
+      }.width("30%")
 
       Row() {
         TextInput({ text: this.value, placeholder: this.placeholder, controller: this.controller })
@@ -24,7 +24,7 @@ export struct EditInputComponent {
           .onChange((value: string) => {
             this.value = value
           })
-      }.width("70%").direction(Direction.Rtl)
+      }.width("70%")
     }.margin({top:'10vp'})
   }
 }

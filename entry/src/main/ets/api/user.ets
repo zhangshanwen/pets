@@ -52,3 +52,7 @@ export function registerUser(data) {
 export function uploadAvatar(fileName: string) {
   return upload("v1/user/avatar", fileName)
 }
+
+export function userLogout() {
+  return instance.get("v1/user/logout")
+}

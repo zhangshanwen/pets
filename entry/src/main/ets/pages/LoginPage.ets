@@ -18,7 +18,13 @@ struct LoginPage {
 
   build() {
     Column() {
-      TitleComponent({title:'登录'})
+      Text("登录")
+        .fontSize('20fp')
+        .fontColor('#182431')
+        .fontWeight(500)
+        .width('100%')
+        .height('56vp')
+        .margin({left:'20vp'})
 
       Scroll() {
         Column() {

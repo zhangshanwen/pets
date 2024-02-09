@@ -11,14 +11,12 @@ export struct PetComponent {
     Row() {
       Text() {
         Span('我的宠物')
-      }.width("70%").direction(Direction.Ltr).onClick(()=>{
-        console.log("点击了我的宠物")
+      }.width("70%").onClick(()=>{
         router.pushUrl({url:CommonConstants.PETS_PAGE_URL})
       })
       Row() {
         ChevronRightIconComponent()
       }.width("30%").direction(Direction.Rtl).onClick(()=>{
-        console.log("点击了我的宠物")
         router.pushUrl({url:CommonConstants.PETS_PAGE_URL})
       })
 

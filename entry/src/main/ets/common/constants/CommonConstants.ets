@@ -191,6 +191,7 @@ export class CommonConstants {
   static readonly PETS_PAGE_URL: string = 'pages/PetsPage';
   static readonly PET_SAVE_PAGE_URL: string = 'pages/PetSavePage';
   static readonly USER_INFO_PAGE_URL: string = 'pages/UserInfoPage';
+  static readonly ARTICLE_SAVE_PAGE_URL: string = 'pages/ArticleSavePage';
 
   /**
    * Registration success page url.

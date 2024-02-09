@@ -9,7 +9,7 @@ export struct NickNameComponent {
     Row() {
       Text() {
         Span('昵称')
-      }.width("70%").direction(Direction.Ltr)
+      }.width("70%")
 
       Row() {
         ChevronRightIconComponent()

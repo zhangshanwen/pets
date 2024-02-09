@@ -11,8 +11,7 @@ export struct EditInputAreaComponent {
     Row() {
       Text() {
         Span(this.text)
-      }.width("30%").direction(Direction.Ltr)
-
+      }.width("30%")
       Row() {
         TextArea({
           text: this.value,
@@ -27,7 +26,7 @@ export struct EditInputAreaComponent {
           .onChange((value: string) => {
             this.value = value
           })
-      }.width("70%").direction(Direction.Rtl)
+      }.width("70%")
     }.margin({ top: '10vp' })
   }
 }

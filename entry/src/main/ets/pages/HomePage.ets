@@ -1,6 +1,9 @@
 import { UserInfo } from '../common/bean/ListItemData'
 import { getUserInfo } from '../utils/user'
 import { MineComponent } from '../view/mine/MineComponent'
+import { ArticleListComponent } from '../view/article/ArticleListComponent'
+import router from '@ohos.router'
+import { CommonConstants } from '../common/constants/CommonConstants'
 
 
 @Entry
@@ -15,8 +18,8 @@ struct HomePage {
   onPageShow() {
     getUserInfo().then((res) => {
       this.user = res
-    }).catch((err)=>{
-      console.log("请求异常",err.message)
+    }).catch((err) => {
+      console.log("请求异常", err.message)
     })
   }
 
@@ -35,24 +38,33 @@ struct HomePage {
     }.width('100%')
   }
 
+  @Builder TabPlus(index) {
+    Column() {
+      Image($r("app.media.plus_icon"))
+        .width(this.currentIndex == index ? "40vp" : "50vp")
+        .height(this.currentIndex == index ? "40vp" : "50vp")
+    }.width('100%').onClick(() => {
+      console.log("点击了plus")
+      this.currentIndex = index
+      router.pushUrl({ url: CommonConstants.ARTICLE_SAVE_PAGE_URL })
+    })
+  }
+
   build() {
     Column() {
       Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
+
+        TabContent() {
+          ArticleListComponent()
+        }.tabBar(this.TabBuilder(0, '首页'))
+
+        TabContent() {
+        }.tabBar(this.TabPlus(1))
+
         TabContent() {
           MineComponent()
-        }.tabBar(this.TabBuilder(0, 'green'))
+        }.tabBar(this.TabBuilder(2, '我'))
 
-        TabContent() {
-          Column().width('100%').height('100%').backgroundColor('#007DFF')
-        }.tabBar(this.TabBuilder(1, 'blue'))
-
-        TabContent() {
-          Column().width('100%').height('100%').backgroundColor('#FFBF00')
-        }.tabBar(this.TabBuilder(2, 'yellow'))
-
-        TabContent() {
-          Column().width('100%').height('100%').backgroundColor('#E67C92')
-        }.tabBar(this.TabBuilder(3, 'pink'))
       }
       .vertical(false)
       .barPosition(BarPosition.End)

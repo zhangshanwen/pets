@@ -8,6 +8,7 @@
     "pages/PetSavePage",
     "pages/RegistrationSuccessPage",
     "pages/PrivacyPage",
-    "pages/CustomerServicePage"
+    "pages/CustomerServicePage",
+    "pages/ArticleSavePage"
   ]
 }
