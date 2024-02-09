@@ -56,3 +56,10 @@ export function uploadAvatar(fileName: string) {
 export function userLogout() {
   return instance.get("v1/user/logout")
 }
+
+export function userSavePassword(data: {
+  password: string,
+  oldPassword: string
+}) {
+  return instance.post("v1/user/password", data)
+}

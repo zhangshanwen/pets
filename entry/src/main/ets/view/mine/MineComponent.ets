@@ -3,6 +3,7 @@ import { TitleComponent } from '../components/TitleComponent'
 import { AvatarComponent } from '../userinfo/AvatarComponent'
 import { LogoutComponent } from '../userinfo/LogoutComponent'
 import { NickNameComponent } from '../userinfo/NickNameComponent'
+import { PasswordComponent } from '../userinfo/PasswordComponent'
 import { PetComponent } from '../userinfo/PetComponent'
 import { PhoneNumberComponent } from '../userinfo/PhoneNumberComponent'
 
@@ -26,6 +27,8 @@ export struct MineComponent {
         NickNameComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 手机号
         PhoneNumberComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
+        // 密码
+        PasswordComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 我的宠物
         PetComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
       }

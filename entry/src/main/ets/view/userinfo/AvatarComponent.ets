@@ -32,7 +32,7 @@ export struct AvatarComponent {
             })
           })
         })
-      }.width("30%")
+      }.width("20%")
     }.height("100%")
   }
 }

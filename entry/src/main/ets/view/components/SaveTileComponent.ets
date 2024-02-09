@@ -1,17 +1,35 @@
-import { TitleComponent } from './TitleComponent'
+import router from '@ohos.router'
 
 @Component
 export struct SaveTitleComponent {
   @Prop title: string
-  @Link clickFunc: Function
+  clickFunc: Function
 
   build() {
     Row() {
-      TitleComponent({ title: this.title })
+      Row() {
+        Image($r('app.media.ic_back'))
+          .width('24vp')
+          .height('24vp')
+          .margin({
+            left: '24vp',
+            right: '16vp'
+          })
+          .onClick(() => {
+            router.back();
+          })
+        Text(this.title)
+          .fontSize('20fp')
+          .fontColor('#182431')
+          .fontWeight(500)
+      }.width("80%")
+
       Blank()
-      Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
-        this.clickFunc()
-      })
-    }
+      Row() {
+        Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
+          this.clickFunc()
+        })
+      }.width("20%")
+    }.height("15%")
   }
 }

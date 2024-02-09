@@ -7,22 +7,27 @@ import { CommonConstants } from '../../common/constants/CommonConstants'
 export struct PetComponent {
   @Consume user: UserInfo
 
+  clickFunc() {
+    router.pushUrl({ url: CommonConstants.PETS_PAGE_URL })
+  }
+
   build() {
     Row() {
       Text() {
         Span('我的宠物')
-      }.width("70%").onClick(()=>{
-        router.pushUrl({url:CommonConstants.PETS_PAGE_URL})
-      })
-      Row() {
-        ChevronRightIconComponent()
-      }.width("30%").direction(Direction.Rtl).onClick(()=>{
-        router.pushUrl({url:CommonConstants.PETS_PAGE_URL})
+      }.width("80%").onClick(() => {
+        this.clickFunc()
       })
 
-    }.height("100%").onClick(()=>{
-      console.log("点击了我的宠物")
-      router.pushUrl({url:CommonConstants.PETS_PAGE_URL})
+      Row() {
+        Blank()
+        ChevronRightIconComponent()
+      }.width("20%").onClick(() => {
+        this.clickFunc()
+      })
+
+    }.height("100%").onClick(() => {
+      this.clickFunc()
     })
   }
 }

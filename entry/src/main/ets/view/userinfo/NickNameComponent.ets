@@ -9,15 +9,17 @@ export struct NickNameComponent {
     Row() {
       Text() {
         Span('昵称')
-      }.width("70%")
+      }.width("80%")
 
       Row() {
-        ChevronRightIconComponent()
         Text() {
           Span(this.user.nick_name)
         }
 
-      }.width("30%").direction(Direction.Rtl)
+        Blank()
+
+        ChevronRightIconComponent()
+      }.width("20%")
 
     }.height("100%")
   }
