@@ -9,6 +9,7 @@
     "pages/RegistrationSuccessPage",
     "pages/PrivacyPage",
     "pages/CustomerServicePage",
-    "pages/ArticleSavePage"
+    "pages/ArticleSavePage",
+    "pages/SetPasswordPage"
   ]
 }

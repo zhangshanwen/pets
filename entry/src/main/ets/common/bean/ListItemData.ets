@@ -45,6 +45,7 @@ export class UserInfo {
   birth_date: string;
   intro: string;
   avatar: string;
+  has_password: boolean
 }
 
 @Observed

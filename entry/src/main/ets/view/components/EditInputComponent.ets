@@ -1,10 +1,8 @@
-
 @Component
 export struct EditInputComponent {
   @Prop text: string
   @Prop placeholder: string
   @Link value: string
-  @State isEdit: boolean = false
   controller: TextInputController = new TextInputController()
 
   build() {
@@ -17,7 +15,7 @@ export struct EditInputComponent {
       Row() {
         TextInput({ text: this.value, placeholder: this.placeholder, controller: this.controller })
           .placeholderColor(Color.Grey)
-          .placeholderFont({ size: 14})
+          .placeholderFont({ size: 14 })
           .caretColor(Color.Blue)
           .fontSize(14)
           .fontColor(Color.Black)
@@ -25,6 +23,6 @@ export struct EditInputComponent {
             this.value = value
           })
       }.width("70%")
-    }.margin({top:'10vp'})
+    }.margin({ top: '10vp' })
   }
 }
