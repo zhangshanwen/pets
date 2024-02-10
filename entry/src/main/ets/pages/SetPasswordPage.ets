@@ -35,7 +35,7 @@ export struct SetPasswordPage {
       SaveTitleComponent({ title: "设置密码", clickFunc: this.savePassword })
 
       // 新密码
-      EditInputComponent({ text: "新密码", placeholder: "填写新密码", value: $newPassword })
+      EditInputComponent({ text: "新密码", placeholder: "填写新密码", value: $password })
       // 确认密码
       EditInputComponent({ text: "确认密码", placeholder: "填写确认密码", value: $verifyPassword })
     }
