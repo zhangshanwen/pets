@@ -8,27 +8,22 @@ import { SaveTitleComponent } from '../view/components/SaveTileComponent'
 @Entry
 @Component
 export struct SetPasswordPage {
-  @State oldPassword: string = ''
   @State password: string = ''
   @State verifyPassword: string = ''
   @State hasPassword: boolean = true
 
   onPageShow() {
-    this.hasPassword = router.getParams()["hasPassword"]
   }
 
   savePassword() {
-    if (this.hasPassword && !this.oldPassword) {
-      DialogShow("提示", "请输入原密码")
-      return
-    } else if (!this.password) {
+    if (!this.password) {
       DialogShow("提示", "请输入新密码")
       return
     } else if (this.password != this.verifyPassword) {
       DialogShow("提示", "两次输入不一致")
       return
     }
-    userSavePassword({ password: this.password, oldPassword: this.oldPassword }).then(() => {
+    userSavePassword({ password: this.password }).then(() => {
       prompt.showToast({
         message: '设置密码成功',
         duration: 2000,
@@ -39,10 +34,7 @@ export struct SetPasswordPage {
   build() {
     Column() {
       SaveTitleComponent({ title: "设置密码", clickFunc: this.savePassword })
-      if (this.hasPassword) {
-        // 原密码
-        EditInputComponent({ text: "原密码", placeholder: "填写原密码", value: $originPassword })
-      }
+
       // 新密码
       EditInputComponent({ text: "新密码", placeholder: "填写新密码", value: $newPassword })
       // 确认密码

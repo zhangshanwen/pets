@@ -59,7 +59,7 @@ export function userLogout() {
 
 export function userSavePassword(data: {
   password: string,
-  oldPassword: string
 }) {
   return instance.post("v1/user/password", data)
 }
+

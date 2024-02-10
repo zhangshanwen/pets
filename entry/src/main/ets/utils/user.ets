@@ -5,14 +5,19 @@ import { CommonConstants } from '../common/constants/CommonConstants';
 import { readFile, writeFile } from './file'
 
 const petsAuthorization = 'pets_authorization'
+const petsRefreshToken = 'pets_refresh_token'
 const petsUserInfo = 'pets_user_info'
 const authorization = 'authorization'
+const refreshToken = 'refresh_token'
 
 
 export function saveAuthorization(res) {
-  AppStorage.SetOrCreate(petsAuthorization, res.data.authorization);
   console.log("保存登录token", res.data.authorization)
+  console.log("保存登录refresh_token", res.data.refresh_token)
+  AppStorage.SetOrCreate(petsAuthorization, res.data.authorization);
+  AppStorage.SetOrCreate(petsRefreshToken, res.data.refresh_token);
   writeFile(authorization, res.data.authorization)
+  writeFile(refreshToken, res.data.refresh_token)
   router.pushUrl({
     url: CommonConstants.HOME_PAGE_URL
   })
@@ -24,6 +29,16 @@ export function getAuthorization(): string {
     token = readFile(authorization)
     if (token) {
       AppStorage.SetOrCreate(petsAuthorization, token);
+    }
+  }
+  return token
+}
+export function getRefreshToken(): string {
+  let token: string = AppStorage.Get(petsRefreshToken)
+  if (!token) {
+    token = readFile(refreshToken)
+    if (token) {
+      AppStorage.SetOrCreate(petsRefreshToken, token);
     }
   }
   return token
