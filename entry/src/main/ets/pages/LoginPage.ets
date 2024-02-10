@@ -1,8 +1,6 @@
-import router from '@ohos.router';
 import MediaQueryModel from '../model/MediaQueryModel';
 import { PrivacyStatementComponent } from '../view/PrivacyStatementComponent';
 import { LoginComponent } from '../view/login/LoginComponent';
-import { TitleComponent } from '../view/components/TitleComponent'
 
 
 @Entry

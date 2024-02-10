@@ -49,7 +49,7 @@ export struct SmsCodeTextInput {
             msgSend({ phone_number: this.phoneNumber }).then(() => {
               this.timeRemaining = 60
               this.setCodeInterval()
-            }).catch()
+            })
           })
         }
       }.backgroundColor('#F1F3F5')

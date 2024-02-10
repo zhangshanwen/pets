@@ -22,7 +22,7 @@ export struct VerificationCodeMsgSendButton {
       .onClick(() => {
         msgSend({ phone_number: this.phoneNumber }).then(() => {
           this.isSendCode = true
-        }).catch()
+        })
       })
   }
 }

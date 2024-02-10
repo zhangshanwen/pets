@@ -1,5 +1,4 @@
 import { UserInfo } from '../../common/bean/ListItemData'
-import { TitleComponent } from '../components/TitleComponent'
 import { AvatarComponent } from '../userinfo/AvatarComponent'
 import { LogoutComponent } from '../userinfo/LogoutComponent'
 import { NickNameComponent } from '../userinfo/NickNameComponent'

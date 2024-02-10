@@ -4,7 +4,6 @@ import { AxiosResponse, InternalAxiosRequestConfig, AxiosError } from '@ohos/axi
 import router from '@ohos.router';
 import { CommonConstants } from '../../common/constants/CommonConstants';
 import { getAuthorization, saveAuthorization } from '../user';
-import { msgSend } from '../../api/sms';
 
 const instance = axios.create({
   baseURL: "http://192.168.1.3:17017/api/"
@@ -28,9 +27,9 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return Promise.reject(error);
 });
 // 添加响应拦截器
-instance.interceptors.response.use(async (res: AxiosResponse) => {
+instance.interceptors.response.use( (res: AxiosResponse) => {
   console.log("返回响应", JSON.stringify(res.data))
-  console.log("返回响应请求", JSON.stringify(res.request))
+  // console.log("返回响应请求", JSON.stringify(res.request))
   if (res.status === 200) {
     // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
     // 这里建议和后端的保持一致

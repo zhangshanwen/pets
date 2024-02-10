@@ -26,7 +26,7 @@ export struct VerificationCodeLoginButton {
           // 保存登录态
           saveAuthorization(res)
           console.log("登录成功")
-        }).catch()
+        })
       })
   }
 }

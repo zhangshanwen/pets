@@ -27,7 +27,6 @@ export struct PasswordLoginButton {
           // 保存用户登录信息
           saveAuthorization(res)
           console.log("登录成功")
-        }).catch(err => {
         })
       })
   }

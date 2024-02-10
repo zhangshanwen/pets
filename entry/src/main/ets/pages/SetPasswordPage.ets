@@ -1,4 +1,3 @@
-import router from '@ohos.router'
 import prompt from '@system.prompt'
 import { userSavePassword } from '../api/user'
 import { DialogShow } from '../utils/dialog'

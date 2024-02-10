@@ -1,6 +1,5 @@
 import fs from '@ohos.file.fs';
 import common from '@ohos.app.ability.common';
-import fileuri from "@ohos.file.fileuri";
 
 export function readFile(filename: string): string {
   let context = getContext(this) as common.UIAbilityContext;
