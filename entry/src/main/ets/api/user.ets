@@ -60,6 +60,12 @@ export function userLogout() {
 export function userSavePassword(data: {
   password: string,
 }) {
-  return instance.post("v1/user/password", data)
+  return instance.put("v1/user/password", data)
+}
+
+export function userSaveNickName(data: {
+  nick_name: string,
+}) {
+  return instance.put("v1/user/nickname", data)
 }
 

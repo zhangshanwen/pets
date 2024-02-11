@@ -3,8 +3,9 @@ import { AxiosResponse, InternalAxiosRequestConfig, AxiosError } from '@ohos/axi
 
 import router from '@ohos.router';
 import { CommonConstants } from '../../common/constants/CommonConstants';
-import { getAuthorization, saveAuthorization } from '../user';
+import { getAuthorization, getRefreshToken, saveAuthorization } from '../user';
 
+const refreshUri = "v1/user/refresh"
 const instance = axios.create({
   baseURL: "http://192.168.1.3:17017/api/"
 });
@@ -13,7 +14,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   // 对请求数据做点什么
   let token = getAuthorization();
-  if (token) {
+  if (!config.headers["Authorization"] && token) {
     config.headers["Authorization"] = token
     if (!config.headers['Content-Type']) {
       if (["post", "put"].lastIndexOf(config.method) >= 0) {
@@ -27,19 +28,30 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return Promise.reject(error);
 });
 // 添加响应拦截器
-instance.interceptors.response.use( (res: AxiosResponse) => {
-  console.log("返回响应", JSON.stringify(res.data))
-  // console.log("返回响应请求", JSON.stringify(res.request))
+instance.interceptors.response.use(async (res: AxiosResponse) => {
+  console.log(`${res.config.url} 返回响应:${res.status}`, JSON.stringify(res.data))
   if (res.status === 200) {
     // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
     // 这里建议和后端的保持一致
     if (res.data.code == -1) {
+      if (res.config.url === refreshUri) {
+        return
+      }
+      var newRes ;
       // 登录检验失败,删除登录态
-      // TODO 使用freshToken 重新刷新
-      router.pushUrl({
-        url: CommonConstants.LOGIN_PAGE_URL
+      await instance.get(refreshUri, { headers: { 'refresh_token': getRefreshToken() } }).then((refreshRes) => {
+        saveAuthorization(refreshRes.data.authorization, refreshRes.data.refresh_token)
+        newRes =  instance.request(res.config)
+      }).catch(() => {
+        router.pushUrl({
+          url: CommonConstants.LOGIN_PAGE_URL
+        })
       })
+      return newRes
     } else if (res.data.code == 1) {
+      if (res.config.url === refreshUri) {
+        return
+      }
       showTip(res.data.msg)
       throw new Error(res.data.msg)
     }
@@ -51,6 +63,8 @@ instance.interceptors.response.use( (res: AxiosResponse) => {
   return res.data;
 }, (error: AxiosError) => {
   // 对响应错误做点什么
+  console.log(`${error.message}${error.request.config.url}`,"---------AxiosError--------")
+
   showTip("系统错误")
   return Promise.reject(error);
 });

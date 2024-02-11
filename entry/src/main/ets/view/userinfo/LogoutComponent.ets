@@ -11,9 +11,8 @@ export struct LogoutComponent {
         Span("登出")
       }.onClick(() => {
         userLogout().then(() => {
-          saveAuthorization("")
+          saveAuthorization("", "")
           router.pushUrl({ url: CommonConstants.LOGIN_PAGE_URL })
-
         }).catch()
       })
     }

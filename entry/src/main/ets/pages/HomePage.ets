@@ -16,6 +16,7 @@ struct HomePage {
   @Provide user: UserInfo = new UserInfo()
 
   onPageShow() {
+    console.log("进入homepage页面");
     getUserInfo().then((res) => {
       this.user = res
     }).catch((err) => {

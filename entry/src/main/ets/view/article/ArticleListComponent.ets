@@ -1,5 +1,5 @@
 import { ArticleList } from '../../api/article';
-import { Article } from '../../common/bean/ListItemData'
+import { Article, selectOptions } from '../../common/bean/ListItemData'
 import { ArticleListParam } from '../../common/param/ArticleParam';
 import { ArticleComponent } from './components/ArticleComponent';
 
@@ -9,6 +9,7 @@ export struct ArticleListComponent {
   @State form: ArticleListParam = new ArticleListParam();
   @State total: number = 0
   @State isGetALl: boolean = false
+  @State categories: Array<selectOptions> = [{ label: '日常', value: '1' }, { label: '我的', value: '2' }]
 
   loadData() {
     ArticleList(this.form).then((res) => {
@@ -28,24 +29,40 @@ export struct ArticleListComponent {
   }
 
   build() {
-    Stack() {
-      List({ space: 20, initialIndex: 0 }) {
-        ForEach(this.Articles, (item: Article) => {
-          ListItem() {
-            ArticleComponent({ article: item })
-          }
-        }, (item: Article) => item.id.toString())
+    Column() {
+      Flex() {
+        ForEach(this.categories, (item: selectOptions) => {
+          Text() {
+            Span(item.label)
+          }.fontSize(this.form.category === item.value ? 20 : 16).width("100%")
+            .fontColor(this.form.category === item.value ? Color.Blue : Color.Gray).flexBasis('auto').textAlign(TextAlign.Center).onClick(() => {
+            this.form.category = item.value
+            this.loadData()
+          })
+        })
+      }.margin({ bottom: "10vp" })
+
+      Stack() {
+
+        List({ space: 20, initialIndex: 0 }) {
+          ForEach(this.Articles, (item: Article) => {
+            ListItem() {
+              ArticleComponent({ article: item })
+            }
+          }, (item: Article) => item.id.toString())
+        }
+        .listDirection(Axis.Vertical) // 排列方向
+        .divider({ strokeWidth: 2, color: 0xFFFFFF, startMargin: 20, endMargin: 20 }) // 每行之间的分界线
+        .edgeEffect(EdgeEffect.Spring) // 滑动到边缘无效果
+        .onReachEnd(() => {
+          this.form.page_index += 1
+          this.loadData()
+        })
+        .width('90%')
+        .height('90%')
+        .zIndex(1)
       }
-      .listDirection(Axis.Vertical) // 排列方向
-      .divider({ strokeWidth: 2, color: 0xFFFFFF, startMargin: 20, endMargin: 20 }) // 每行之间的分界线
-      .edgeEffect(EdgeEffect.Spring) // 滑动到边缘无效果
-      .onReachEnd(() => {
-        this.form.page_index += 1
-        this.loadData()
-      })
-      .width('90%')
-      .height('90%')
-      .zIndex(1)
     }
+
   }
 }

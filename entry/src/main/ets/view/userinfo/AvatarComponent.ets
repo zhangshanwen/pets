@@ -13,7 +13,7 @@ export struct AvatarComponent {
     Row() {
       Text() {
         Span('头像')
-      }.width("70%")
+      }.width("80%")
 
       Row() {
         Image(this.user.avatar).objectFit(ImageFit.Contain).onClick(async () => {

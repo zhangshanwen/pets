@@ -2,13 +2,10 @@
   "src": [
     "pages/LoginPage",
     "pages/HomePage",
-    "pages/MinePage",
     "pages/PetsPage",
     "pages/PetSavePage",
-    "pages/RegistrationSuccessPage",
-    "pages/PrivacyPage",
-    "pages/CustomerServicePage",
     "pages/ArticleSavePage",
-    "pages/SetPasswordPage"
+    "pages/SetPasswordPage",
+    "pages/SetUserNickName"
   ]
 }

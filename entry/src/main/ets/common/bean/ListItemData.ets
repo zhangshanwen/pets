@@ -65,3 +65,7 @@ export class Article {
   categories: Array<string>;
   cover: string;
 }
+export class selectOptions {
+  label: string;
+  value: string;
+}

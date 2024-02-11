@@ -4,6 +4,7 @@ import router from '@ohos.router'
 export struct SaveTitleComponent {
   @Prop title: string
   clickFunc: Function
+  @Link args: any
 
   build() {
     Row() {
@@ -27,7 +28,7 @@ export struct SaveTitleComponent {
       Blank()
       Row() {
         Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
-          this.clickFunc()
+          this.clickFunc(this.args)
         })
       }.width("20%")
     }.height("15%")

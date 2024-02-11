@@ -1,5 +1,4 @@
 import MediaQueryModel from '../model/MediaQueryModel';
-import { PrivacyStatementComponent } from '../view/PrivacyStatementComponent';
 import { LoginComponent } from '../view/login/LoginComponent';
 
 
@@ -28,9 +27,7 @@ struct LoginPage {
         Column() {
           LoginComponent()
 
-          Blank()
 
-          PrivacyStatementComponent()
         }
         .height('100%')
         .constraintSize({ minHeight: '304vp' })

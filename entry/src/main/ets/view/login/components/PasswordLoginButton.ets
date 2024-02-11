@@ -1,6 +1,8 @@
 import { userLogin } from '../../../api/user';
+import { CommonConstants } from '../../../common/constants/CommonConstants';
 import { isLoginButtonClickable } from '../../../utils/check'
 import { saveAuthorization } from '../../../utils/user';
+import router from '@ohos.router';
 
 @Component
 export struct PasswordLoginButton {
@@ -25,8 +27,11 @@ export struct PasswordLoginButton {
           phone_number: this.phoneNumber,
           password: this.password }).then((res) => {
           // 保存用户登录信息
-          saveAuthorization(res)
+          saveAuthorization(res.data.authorization,res.data.refresh_token)
           console.log("登录成功")
+          router.pushUrl({
+            url: CommonConstants.HOME_PAGE_URL
+          })
         })
       })
   }

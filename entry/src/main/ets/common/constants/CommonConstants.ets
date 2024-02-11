@@ -185,13 +185,13 @@ export class CommonConstants {
   /**
    * Mine page url.
    */
-  static readonly MINE_PAGE_URL: string = 'pages/MinePage';
   static readonly LOGIN_PAGE_URL: string = 'pages/LoginPage';
   static readonly HOME_PAGE_URL: string = 'pages/HomePage';
   static readonly PETS_PAGE_URL: string = 'pages/PetsPage';
   static readonly PET_SAVE_PAGE_URL: string = 'pages/PetSavePage';
   static readonly ARTICLE_SAVE_PAGE_URL: string = 'pages/ArticleSavePage';
   static readonly SET_PASSWORD_PAGE_URL: string = 'pages/SetPasswordPage';
+  static readonly SET_USER_NICKNAME_PAGE_URL: string = 'pages/SetUserNickName';
 
   /**
    * Registration success page url.

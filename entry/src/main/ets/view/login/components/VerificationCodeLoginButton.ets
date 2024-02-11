@@ -1,6 +1,8 @@
 import { userLoginByCode } from '../../../api/user';
 import { checkPhoneNumber } from '../../../utils/check'
 import { saveAuthorization } from '../../../utils/user';
+import router from '@ohos.router';
+import { CommonConstants } from '../../../common/constants/CommonConstants';
 
 // 验证码登录按钮
 @Component
@@ -24,8 +26,11 @@ export struct VerificationCodeLoginButton {
       .onClick(() => {
         userLoginByCode({ phone_number: this.phoneNumber, code: this.verificationCode }).then((res) => {
           // 保存登录态
-          saveAuthorization(res)
+          saveAuthorization(res.data.authorization,res.data.refresh_token)
           console.log("登录成功")
+          router.pushUrl({
+            url: CommonConstants.HOME_PAGE_URL
+          })
         })
       })
   }
