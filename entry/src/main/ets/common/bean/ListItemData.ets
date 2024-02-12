@@ -56,6 +56,7 @@ export class Pet {
   birth_date: number;
   intro: string;
   avatar: string;
+  file_id: string;
 }
 
 @Observed
@@ -65,6 +66,7 @@ export class Article {
   categories: Array<string>;
   cover: string;
 }
+
 export class selectOptions {
   label: string;
   value: string;

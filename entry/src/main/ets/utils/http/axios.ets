@@ -33,15 +33,18 @@ instance.interceptors.response.use(async (res: AxiosResponse) => {
   if (res.status === 200) {
     // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
     // 这里建议和后端的保持一致
-    if (res.data.code == -1) {
-      if (res.config.url === refreshUri) {
-        return
-      }
-      var newRes ;
+    if (res.data.code == -2) {
+      router.pushUrl({
+        url: CommonConstants.LOGIN_PAGE_URL
+      })
+      return
+    }
+    else if (res.data.code == -1) {
+      var newRes;
       // 登录检验失败,删除登录态
       await instance.get(refreshUri, { headers: { 'refresh_token': getRefreshToken() } }).then((refreshRes) => {
         saveAuthorization(refreshRes.data.authorization, refreshRes.data.refresh_token)
-        newRes =  instance.request(res.config)
+        newRes = instance.request(res.config)
       }).catch(() => {
         router.pushUrl({
           url: CommonConstants.LOGIN_PAGE_URL
@@ -63,7 +66,7 @@ instance.interceptors.response.use(async (res: AxiosResponse) => {
   return res.data;
 }, (error: AxiosError) => {
   // 对响应错误做点什么
-  console.log(`${error.message}${error.request.config.url}`,"---------AxiosError--------")
+  console.log(`${error.message}${error.request.config.url}`, "---------AxiosError--------")
 
   showTip("系统错误")
   return Promise.reject(error);

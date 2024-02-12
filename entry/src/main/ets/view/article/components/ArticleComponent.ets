@@ -18,7 +18,7 @@ export struct ArticleComponent {
       Image(this.article.cover === "" ? $r("app.media.cat") : this.article.cover)
       Text() {
         Span(this.article.content)
-      }.margin({ top: "10vp" })
+      }.margin({ top: "10vp" }).textOverflow({ overflow: TextOverflow.Ellipsis }).maxLines(1)
 
       Row() {
         ForEach(this.article.categories, (category) => {

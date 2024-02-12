@@ -9,7 +9,10 @@ export struct ArticleListComponent {
   @State form: ArticleListParam = new ArticleListParam();
   @State total: number = 0
   @State isGetALl: boolean = false
-  @State categories: Array<selectOptions> = [{ label: '日常', value: '1' }, { label: '我的', value: '2' }]
+  @State categories: Array<selectOptions> = [{ label: '日常', value: '1' }, { label: '经验', value: '2' }, {
+    label: '我的',
+    value: '0'
+  }]
 
   loadData() {
     ArticleList(this.form).then((res) => {
@@ -34,8 +37,15 @@ export struct ArticleListComponent {
         ForEach(this.categories, (item: selectOptions) => {
           Text() {
             Span(item.label)
-          }.fontSize(this.form.category === item.value ? 20 : 16).width("100%")
-            .fontColor(this.form.category === item.value ? Color.Blue : Color.Gray).flexBasis('auto').textAlign(TextAlign.Center).onClick(() => {
+          }
+          .fontSize(this.form.category === item.value ? 20 : 16)
+          .width("100%")
+          .fontColor(this.form.category === item.value ? Color.Blue : Color.Gray)
+          .flexBasis('auto')
+          .textAlign(TextAlign.Center)
+          .onClick(() => {
+            this.Articles = []
+            this.form.page_index = 1
             this.form.category = item.value
             this.loadData()
           })

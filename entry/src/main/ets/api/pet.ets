@@ -1,7 +1,6 @@
-import http from '@ohos.net.http';
 import { PetListParam } from '../common/param/PetParam';
-//导入封装好的请求
-import  instance from '../utils/http/axios'
+import instance from '../utils/http/axios'
+import { upload } from './media';
 
 
 export function petList(params: PetListParam) {
@@ -9,9 +8,24 @@ export function petList(params: PetListParam) {
 }
 
 export function petCreate(data: {
-  page_index: number,
-  page_size: number,
-  nick_name: string
+  nick_name: string,
+  intro: string,
+  birth_date: number,
+  sex: number,
 }) {
-  return instance.post(`v1/pet`,  data)
+  return instance.post(`v1/pet`, data)
+}
+
+export function petUploadAvatar(petId: number, fileName: string) {
+  return upload(`v1/pet/avatar/${petId}`, fileName)
+}
+
+
+export function petEdit(petId: number, data: {
+  nick_name: string,
+  intro: string,
+  birth_date: number,
+  sex: number,
+}) {
+  return instance.put(`v1/pet/${petId}`, data)
 }

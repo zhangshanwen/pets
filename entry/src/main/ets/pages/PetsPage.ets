@@ -1,10 +1,11 @@
-
 import { TitleComponent } from '../view/components/TitleComponent'
 import { Pet } from '../common/bean/ListItemData';
 import { petList } from '../api/pet';
 import { PetListParam } from '../common/param/PetParam';
 import { PetCardComponent } from '../view/pet/PetCardComponent';
 import { PetAddButtonComponent } from '../view/pet/PetAddButtonComponent';
+import router from '@ohos.router';
+import { CommonConstants } from '../common/constants/CommonConstants';
 
 
 @Entry
@@ -16,6 +17,9 @@ struct PetsPage {
   @State isGetALl: boolean = false;
 
   onPageShow() {
+    this.isGetALl = false
+    this.pets = []
+    this.form = new PetListParam()
     this.loadData()
   }
 
@@ -45,7 +49,9 @@ struct PetsPage {
 
             ListItem() {
               PetCardComponent({ pet: item })
-            }.align(Alignment.Center)
+            }.align(Alignment.Center).onClick(() => {
+              router.pushUrl({ url: CommonConstants.PET_SAVE_PAGE_URL, params: { pet: item } })
+            })
           }, (item: Pet) => item.id.toString())
         }
         .listDirection(Axis.Vertical) // 排列方向

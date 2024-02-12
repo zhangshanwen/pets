@@ -1,8 +1,10 @@
+import { formatBirthDate } from '../../utils/format'
+
 @Component
 export struct EditDateComponent {
   @Prop text: string
   @Prop placeholder: string
-  @Link value: string
+  @Link value: number
   selectedDate: Date = new Date()
   @State isEdit: boolean = false
 
@@ -15,23 +17,17 @@ export struct EditDateComponent {
 
       Row() {
         Text() {
-          Span(this.value == "" ? `${this.placeholder}` : this.value)
+          Span(this.value == 0 ? `${this.placeholder}` : formatBirthDate(this.value))
         }.fontSize(14)
         .fontColor(Color.Black).onClick(() => {
           DatePickerDialog.show({
-            start: new Date("2000-1-1"),
-            end: new Date("2100-12-31"),
+            end: new Date(),
             selected: this.selectedDate,
             lunar: false,
             onAccept: (value: DatePickerResult) => {
               this.selectedDate.setFullYear(value.year, value.month, value.day)
               console.info("DatePickerDialog:onAccept()" + JSON.stringify(value))
-            },
-            onCancel: () => {
-              console.info("DatePickerDialog:onCancel()")
-            },
-            onChange: (value: DatePickerResult) => {
-              console.info("DatePickerDialog:onChange()" + JSON.stringify(value))
+              this.value = parseInt((this.selectedDate.getTime() / 1000).toString())
             }
           })
         })
