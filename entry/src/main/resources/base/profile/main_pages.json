@@ -6,6 +6,7 @@
     "pages/PetSavePage",
     "pages/ArticleSavePage",
     "pages/SetPasswordPage",
-    "pages/SetUserNickName"
+    "pages/SetUserNickName",
+    "pages/ArticleInfoPage"
   ]
 }

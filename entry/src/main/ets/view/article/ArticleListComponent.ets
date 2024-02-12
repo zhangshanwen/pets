@@ -2,6 +2,8 @@ import { ArticleList } from '../../api/article';
 import { Article, selectOptions } from '../../common/bean/ListItemData'
 import { ArticleListParam } from '../../common/param/ArticleParam';
 import { ArticleComponent } from './components/ArticleComponent';
+import router from '@ohos.router';
+import { CommonConstants } from '../../common/constants/CommonConstants';
 
 @Component
 export struct ArticleListComponent {
@@ -13,8 +15,19 @@ export struct ArticleListComponent {
     label: '我的',
     value: '0'
   }]
+  @Prop category: string
+
+  aboutToAppear() {
+    if (this.category) {
+      this.form.category = this.category
+    }
+    this.loadData()
+  }
 
   loadData() {
+    if (this.isGetALl) {
+      return
+    }
     ArticleList(this.form).then((res) => {
       for (let i = 0; i < res.data.list.length; i++) {
         this.Articles.push(res.data.list[i])
@@ -25,10 +38,6 @@ export struct ArticleListComponent {
         this.isGetALl = true
       }
     })
-  }
-
-  aboutToAppear() {
-    this.loadData()
   }
 
   build() {
@@ -45,6 +54,7 @@ export struct ArticleListComponent {
           .textAlign(TextAlign.Center)
           .onClick(() => {
             this.Articles = []
+            this.isGetALl = false
             this.form.page_index = 1
             this.form.category = item.value
             this.loadData()
@@ -58,7 +68,9 @@ export struct ArticleListComponent {
           ForEach(this.Articles, (item: Article) => {
             ListItem() {
               ArticleComponent({ article: item })
-            }
+            }.onClick(() => {
+              router.pushUrl({ url: CommonConstants.ARTICLE_INFO_PAGE_URL, params: { infoId: item.id } })
+            })
           }, (item: Article) => item.id.toString())
         }
         .listDirection(Axis.Vertical) // 排列方向

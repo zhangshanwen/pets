@@ -5,6 +5,7 @@ import { petList } from '../api/pet'
 import { PetListParam } from '../common/param/PetParam'
 import { getMediaIds, uploadMedia } from '../api/media'
 import { ArticleCreate } from '../api/article'
+import { CommonConstants } from '../common/constants/CommonConstants'
 
 @Entry
 @Component
@@ -67,6 +68,7 @@ struct ArticleSavePage {
                 file_ids: file_ids,
                 pet_ids: this.selectPetIds,
               }).then(() => {
+                router.pushUrl({ url: CommonConstants.HOME_PAGE_URL, params: {  category: "0" } })
               })
             }).catch()
 

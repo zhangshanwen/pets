@@ -11,11 +11,16 @@ import { CommonConstants } from '../common/constants/CommonConstants'
 struct HomePage {
   @State fontColor: string = '#182431'
   @State selectedFontColor: string = '#007DFF'
+  @State category: string = ''
   @State currentIndex: number = 0
   private controller: TabsController = new TabsController()
   @Provide user: UserInfo = new UserInfo()
 
   onPageShow() {
+    const param = router.getParams()
+    if (param) {
+      this.category = param['category']
+    }
     console.log("进入homepage页面");
     getUserInfo().then((res) => {
       this.user = res
@@ -56,7 +61,7 @@ struct HomePage {
       Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
 
         TabContent() {
-          ArticleListComponent()
+          ArticleListComponent({category:this.category})
         }.tabBar(this.TabBuilder(0, '首页'))
 
         TabContent() {

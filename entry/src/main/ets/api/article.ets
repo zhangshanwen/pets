@@ -12,3 +12,6 @@ export function ArticleCreate(data: {
 export function ArticleList(params: ArticleListParam) {
   return instance.get(`v1/article`, { params })
 }
+export function ArticleInfo(infoId: number) {
+  return instance.get(`v1/article/${infoId}`)
+}

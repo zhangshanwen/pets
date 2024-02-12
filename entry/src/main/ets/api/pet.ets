@@ -29,3 +29,4 @@ export function petEdit(petId: number, data: {
 }) {
   return instance.put(`v1/pet/${petId}`, data)
 }
+
