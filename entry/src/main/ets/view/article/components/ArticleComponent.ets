@@ -20,13 +20,13 @@ export struct ArticleComponent {
         Span(this.article.content)
       }.margin({ top: "10vp" }).textOverflow({ overflow: TextOverflow.Ellipsis }).maxLines(1)
 
-      Row() {
-        ForEach(this.article.categories, (category) => {
-          Text() {
-            Span(this.formatCategory(category)).fontColor(Color.Blue)
-          }
-        })
-      }.margin({ top: "10vp" })
+      // Row() {
+      //   ForEach(this.article.categories, (category) => {
+      //     Text() {
+      //       Span(this.formatCategory(category)).fontColor(Color.Blue)
+      //     }
+      //   })
+      // }.margin({ top: "10vp" })
     }
   }
 }

@@ -1,15 +1,16 @@
 import router from '@ohos.router'
 import { Pet } from '../common/bean/ListItemData'
-import { ArticleInfo } from '../api/article'
+import { articleDelete, articleInfo } from '../api/article'
 
-import { TitleComponent } from '../view/components/TitleComponent'
 import { DialogShow } from '../utils/dialog'
+import { CommonConstants } from '../common/constants/CommonConstants'
 
 @Entry
 @Component
 struct ArticleInfoPage {
   @State infoId: number = 0
   @State ownerId: number = 0
+  @State uid: number = 0
   @State ownerNickName: string = ''
   @State ownerAvatar: string = ''
   @State medias: Array<string> = []
@@ -27,11 +28,12 @@ struct ArticleInfoPage {
       }, 500)
     }
     this.infoId = param["infoId"]
+    this.uid = param["uid"]
     this.loadData()
   }
 
   loadData() {
-    ArticleInfo(this.infoId).then((res) => {
+    articleInfo(this.infoId).then((res) => {
       this.ownerId = res.data.owner_id
       this.ownerNickName = res.data.owner_nick_name
       this.ownerAvatar = res.data.owner_avatar
@@ -44,8 +46,36 @@ struct ArticleInfoPage {
 
   build() {
     Column() {
+      Row() {
+        Image($r('app.media.ic_back'))
+          .width('24vp')
+          .height('24vp')
+          .margin({
+            left: '24vp',
+            right: '16vp'
+          })
+          .onClick(() => {
+            router.back();
+          })
 
-      TitleComponent({ title: "详情" })
+        Text('详情')
+          .fontSize('20fp')
+          .fontColor('#182431')
+          .fontWeight(500)
+        Blank()
+        if (this.uid === this.ownerId && this.uid != 0) {
+          Button("删除", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
+            articleDelete(this.infoId).then(() => {
+              router.clear()
+              router.pushUrl({ url: CommonConstants.HOME_PAGE_URL, params: { category: "0" } })
+            })
+          })
+        }
+
+      }
+      .width('100%')
+      .height('56vp')
+
       Scroll(this.scroller) {
         Column() {
           Row() {

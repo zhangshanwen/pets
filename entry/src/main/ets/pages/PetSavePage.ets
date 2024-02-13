@@ -5,7 +5,7 @@ import router from '@ohos.router';
 import { AvatarUploadComponent } from '../view/components/AvatarUploadComponent';
 import { SelectComponent } from '../view/components/SelectComponent';
 import { Pet } from '../common/bean/ListItemData';
-import { petCreate, petEdit, petUploadAvatar } from '../api/pet';
+import { petCreate, petDelete, petEdit, petUploadAvatar } from '../api/pet';
 import { DialogShow } from '../utils/dialog';
 
 
@@ -82,15 +82,21 @@ struct PetSavePage {
             .fontSize('20fp')
             .fontColor('#182431')
             .fontWeight(500)
-        }.width("80%")
+        }.width("60%")
 
         Blank()
         Row() {
-          Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
+          Button("保存").onClick(() => {
             this.save()
-          })
-        }.width("20%")
-      }.height('56vp')
+          }).fontColor(Color.Blue).backgroundColor(0xffffff)
+            .margin({ right: 10 })
+          Button("删除").onClick(() => {
+            petDelete(this.pet.id).then(() => {
+              router.back()
+            })
+          }).backgroundColor(0xffffff).fontColor(Color.Red).margin({ right: 10 })
+        }.width("30%")
+      }.height('56vp').align(Alignment.Start).width("100%")
 
 
       //头像

@@ -1,4 +1,4 @@
-import { ArticleList } from '../../api/article';
+import { articleList } from '../../api/article';
 import { Article, selectOptions } from '../../common/bean/ListItemData'
 import { ArticleListParam } from '../../common/param/ArticleParam';
 import { ArticleComponent } from './components/ArticleComponent';
@@ -10,12 +10,13 @@ export struct ArticleListComponent {
   @State Articles: Array<Article> = []
   @State form: ArticleListParam = new ArticleListParam();
   @State total: number = 0
-  @State isGetALl: boolean = false
+  @State isGetAll: boolean = false
   @State categories: Array<selectOptions> = [{ label: '日常', value: '1' }, { label: '经验', value: '2' }, {
     label: '我的',
     value: '0'
   }]
   @Prop category: string
+  @Prop uid: number
 
   aboutToAppear() {
     if (this.category) {
@@ -24,18 +25,19 @@ export struct ArticleListComponent {
     this.loadData()
   }
 
+
   loadData() {
-    if (this.isGetALl) {
+    if (this.isGetAll) {
       return
     }
-    ArticleList(this.form).then((res) => {
+    articleList(this.form).then((res) => {
       for (let i = 0; i < res.data.list.length; i++) {
         this.Articles.push(res.data.list[i])
       }
 
       this.total = res.data.pagination.total
       if (this.form.page_index * this.form.page_size >= this.total) {
-        this.isGetALl = true
+        this.isGetAll = true
       }
     })
   }
@@ -54,7 +56,7 @@ export struct ArticleListComponent {
           .textAlign(TextAlign.Center)
           .onClick(() => {
             this.Articles = []
-            this.isGetALl = false
+            this.isGetAll = false
             this.form.page_index = 1
             this.form.category = item.value
             this.loadData()
@@ -69,7 +71,7 @@ export struct ArticleListComponent {
             ListItem() {
               ArticleComponent({ article: item })
             }.onClick(() => {
-              router.pushUrl({ url: CommonConstants.ARTICLE_INFO_PAGE_URL, params: { infoId: item.id } })
+              router.pushUrl({ url: CommonConstants.ARTICLE_INFO_PAGE_URL, params: { infoId: item.id, uid: this.uid } })
             })
           }, (item: Article) => item.id.toString())
         }

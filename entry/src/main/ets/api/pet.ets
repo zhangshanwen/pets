@@ -30,3 +30,7 @@ export function petEdit(petId: number, data: {
   return instance.put(`v1/pet/${petId}`, data)
 }
 
+
+export function petDelete(petId: number) {
+  return instance.delete(`v1/pet/${petId}`)
+}

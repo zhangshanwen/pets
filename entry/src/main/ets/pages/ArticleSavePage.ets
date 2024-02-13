@@ -1,11 +1,13 @@
 import { pickPhoto } from '../utils/media'
 import router from '@ohos.router'
-import { Pet } from '../common/bean/ListItemData'
+import { Pet, selectOptions } from '../common/bean/ListItemData'
 import { petList } from '../api/pet'
 import { PetListParam } from '../common/param/PetParam'
 import { getMediaIds, uploadMedia } from '../api/media'
-import { ArticleCreate } from '../api/article'
+import { articleCreate } from '../api/article'
 import { CommonConstants } from '../common/constants/CommonConstants'
+import { ArticleSelectPetsComponent } from '../view/article/ArticleSelectPetsComponent'
+import { DialogShow } from '../utils/dialog'
 
 @Entry
 @Component
@@ -19,25 +21,32 @@ struct ArticleSavePage {
   @State form: PetListParam = new PetListParam();
   @State selectIndex: number = -1
   @State petsOptionIds: Array<number> = []
+  @State category: string = '日常'
+  @State categoriesOptions: Array<SelectOption> = [{ value: '日常' }, { value: '经验' }]
   @State selectUri: any = ""
-  petIds: Array<number> = []
-  selectPetIds: Array<number> = []
+  @State selectedPets: Array<Pet> = []
+  dialogController: CustomDialogController = new CustomDialogController({
+    builder: ArticleSelectPetsComponent({
+      selectedPets: $selectedPets,
+    }),
+    autoCancel: true,
+    alignment: DialogAlignment.Bottom,
+    offset: { dx: 0, dy: -20 },
+    gridCount: 4,
+    customStyle: false,
+  })
 
   onPageShow() {
-    this.loadData()
   }
 
-  loadData() {
-    petList(this.form).then((res) => {
-      for (let i = 0; i < res.data.list.length; i++) {
-        var pet: Pet = res.data.list[i]
-        this.petIds.push(pet.id)
-        this.petsOptions.push({
-          value: pet.nick_name,
-          icon: pet.avatar == "" ? $r('app.media.cat_1') : pet.avatar
-        })
-      }
-    })
+  getUploadCategory() {
+    return (this.categoriesOptions.findIndex((ele) => {
+      return ele.value == this.category
+    }) + 1).toString()
+  }
+
+  aboutToDisappear() {
+    this.dialogController = null // 将dialogController置空
   }
 
   build() {
@@ -55,45 +64,74 @@ struct ArticleSavePage {
             router.back();
           })
         Blank()
-        Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(() => {
+        Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(async () => {
+          if (this.text) {
+            DialogShow("错误", "请输入内容")
+            return
+          }
+          if (uriArr.length <= 0) {
+            DialogShow("错误", "至少上传一张图片")
+            return
+          }
           var uriArr = this.imagesColumn.filter((item) => item != "add")
-          getMediaIds({
-            num: uriArr.length
-          }).then(async (resp) => {
-            let file_ids: Array<string> = resp.data.file_ids
-            file_ids = file_ids.map((item) => item + ".jpg")
-            await uploadMedia(uriArr, file_ids).then(() => {
-              ArticleCreate({
-                content: this.text,
-                file_ids: file_ids,
-                pet_ids: this.selectPetIds,
-              }).then(() => {
-                router.pushUrl({ url: CommonConstants.HOME_PAGE_URL, params: {  category: "0" } })
-              })
-            }).catch()
-
+          let file_ids: Array<string>;
+          const resp = await  getMediaIds({ num: uriArr.length })
+          file_ids = resp.data.file_ids.map((item) => item + ".jpg")
+          await uploadMedia(uriArr, file_ids)
+          await articleCreate({
+            content: this.text,
+            file_ids: file_ids,
+            pet_ids: this.selectedPets.map(item => item.id),
+            category: this.getUploadCategory()
           })
+          router.pushUrl({ url: CommonConstants.HOME_PAGE_URL, params: { category: "0" } })
         })
       }.width("100%").height("10%")
 
-      Column() {
-        Row() {
-          if (this.selectUri) {
-            Image(this.selectUri).height("20vp").height("20vp")
-          }
-          Select(this.petsOptions)
-            .value('选择宠物')
-            .font({ size: 20, weight: 500 })
-            .fontColor('#182431')
-            .selectedOptionFont({ size: 20, weight: 400 })
-            .optionFont({ size: 20, weight: 400 })
-            .onSelect((index: number) => {
-              this.selectIndex = index
-              this.selectUri = this.petsOptions[index].icon
-              this.selectPetIds = [this.petIds[index]]
-            })
-        }
-      }.width("100%").height("10%")
+
+      Row() {
+        Text() {
+          Span("选择宠物").fontColor(Color.Blue).onClick(() => {
+            this.dialogController.open()
+          })
+        }.margin({ left: "10vp" })
+
+      }.width("100%").height("10%").align(Alignment.Start)
+
+      if (
+        this.selectedPets.length > 0
+      ) {
+        Column() {
+          Grid() {
+            ForEach(this.selectedPets, (pet: Pet) => {
+              GridItem() {
+                Column() {
+                  Image(pet.avatar === '' ? $r('app.media.cat_1') : pet.avatar).width("80%").height("80%")
+                  Text(`昵称: ${pet.nick_name}`)
+                }
+              }.width("33%").height("33%")
+            }
+            )
+          }.columnsTemplate('1fr 1fr 1fr').columnsGap(10)
+          .rowsGap(10)
+        }.height("30%").width("100%")
+      }
+      Row() {
+        Text() {
+          Span("类型")
+        }.margin({ left: '10vp', right: '10vp' })
+
+        Select(this.categoriesOptions)
+          .value(this.category)
+          .font({ size: 20, weight: 500 })
+          .fontColor(Color.Blue)
+          .selectedOptionFont({ size: 20, weight: 400 })
+          .optionFont({ size: 20, weight: 400 })
+          .onSelect((index: number, value: string) => {
+            this.category = value
+          })
+      }.width("100%").align(Alignment.Start)
+
 
       TextArea({ text: this.text, placeholder: "请输入", controller: this.controller })
         .placeholderColor(Color.Grey)

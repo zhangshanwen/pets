@@ -15,6 +15,7 @@ struct HomePage {
   @State currentIndex: number = 0
   private controller: TabsController = new TabsController()
   @Provide user: UserInfo = new UserInfo()
+  @State uid: number = 0
 
   onPageShow() {
     const param = router.getParams()
@@ -24,6 +25,7 @@ struct HomePage {
     console.log("进入homepage页面");
     getUserInfo().then((res) => {
       this.user = res
+      this.uid = this.user.id
     }).catch((err) => {
       console.log("请求异常", err.message)
     })
@@ -61,7 +63,7 @@ struct HomePage {
       Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
 
         TabContent() {
-          ArticleListComponent({category:this.category})
+          ArticleListComponent({ category: this.category, uid: this.uid })
         }.tabBar(this.TabBuilder(0, '首页'))
 
         TabContent() {
