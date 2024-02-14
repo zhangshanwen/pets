@@ -63,6 +63,10 @@ struct ArticleSavePage {
           .onClick(() => {
             router.back();
           })
+        Text('发布')
+          .fontSize('20fp')
+          .fontColor('#182431')
+          .fontWeight(500)
         Blank()
         Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(async () => {
           if (!this.text) {
