@@ -71,3 +71,10 @@ export class selectOptions {
   label: string;
   value: string;
 }
+
+
+@Observed
+export class Feedback {
+  id: number;
+  content: string;
+}

@@ -1,7 +1,7 @@
 import router from '@ohos.router'
-import { UserInfo } from '../../common/bean/ListItemData'
-import { CommonConstants } from '../../common/constants/CommonConstants'
-import { ChevronRightIconComponent } from '../components/ChevronRightIconComponent'
+import { UserInfo } from '../../../common/bean/ListItemData'
+import { CommonConstants } from '../../../common/constants/CommonConstants'
+import { ChevronRightIconComponent } from '../../components/ChevronRightIconComponent'
 
 
 @Component

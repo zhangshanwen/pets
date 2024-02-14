@@ -1,5 +1,5 @@
 export function checkPhoneNumber(phoneNumber: string): boolean {
-  return phoneNumber !== '';
+  return (/^1[3456789]\d{9}$/.test(phoneNumber))
 }
 
 export function isLoginButtonClickable(phoneNumber: string, password: string): boolean {
@@ -7,5 +7,5 @@ export function isLoginButtonClickable(phoneNumber: string, password: string): b
 }
 
 export function checkVerifyCode(code: string): boolean {
-  return code !== '';
+  return (/^\d{6}$/.test(code));
 }

@@ -193,6 +193,9 @@ export class CommonConstants {
   static readonly SET_PASSWORD_PAGE_URL: string = 'pages/SetPasswordPage';
   static readonly SET_USER_NICKNAME_PAGE_URL: string = 'pages/SetUserNickName';
   static readonly ARTICLE_INFO_PAGE_URL: string = 'pages/ArticleInfoPage';
+  static readonly FEEDBACK_PAGE_URL: string = 'pages/FeedbackPage';
+  static readonly FEEDBACK_INFO_PAGE_URL: string = 'pages/FeedbackInfoPage';
+  static readonly FEEDBACK_LIST_PAGE_URL: string = 'pages/FeedbackListPage';
 
   /**
    * Registration success page url.

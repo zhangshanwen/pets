@@ -65,7 +65,7 @@ struct ArticleSavePage {
           })
         Blank()
         Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(async () => {
-          if (this.text) {
+          if (!this.text) {
             DialogShow("错误", "请输入内容")
             return
           }

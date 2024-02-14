@@ -1,8 +1,8 @@
-import { getMediaIds } from '../../api/media'
-import { uploadAvatar } from '../../api/user'
-import { UserInfo } from '../../common/bean/ListItemData'
-import { copyUriFileToInternalUri } from '../../utils/file'
-import { pickPhoto } from '../../utils/media'
+import { getMediaIds } from '../../../api/media'
+import { uploadAvatar } from '../../../api/user'
+import { UserInfo } from '../../../common/bean/ListItemData'
+import { copyUriFileToInternalUri } from '../../../utils/file'
+import { pickPhoto } from '../../../utils/media'
 
 @Component
 export struct AvatarComponent {

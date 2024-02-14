@@ -1,7 +1,7 @@
-import { UserInfo } from '../../common/bean/ListItemData'
-import { ChevronRightIconComponent } from '../components/ChevronRightIconComponent'
+import { UserInfo } from '../../../common/bean/ListItemData'
+import { ChevronRightIconComponent } from '../../components/ChevronRightIconComponent'
 import router from '@ohos.router'
-import { CommonConstants } from '../../common/constants/CommonConstants'
+import { CommonConstants } from '../../../common/constants/CommonConstants'
 
 @Component
 export struct NickNameComponent {

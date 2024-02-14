@@ -1,20 +1,17 @@
-import { UserInfo } from '../../common/bean/ListItemData'
-import { ChevronRightIconComponent } from '../components/ChevronRightIconComponent'
+import { ChevronRightIconComponent } from '../../components/ChevronRightIconComponent'
 import router from '@ohos.router'
-import { CommonConstants } from '../../common/constants/CommonConstants'
+import { CommonConstants } from '../../../common/constants/CommonConstants'
 
 @Component
-export struct PetComponent {
-  @Consume user: UserInfo
-
+export struct FeedbackComponent {
   clickFunc() {
-    router.pushUrl({ url: CommonConstants.PETS_PAGE_URL })
+    router.pushUrl({ url: CommonConstants.FEEDBACK_LIST_PAGE_URL })
   }
 
   build() {
     Row() {
       Text() {
-        Span('我的宠物')
+        Span('反馈与建议')
       }.width("80%").onClick(() => {
         this.clickFunc()
       })

@@ -1,10 +1,11 @@
 import { UserInfo } from '../../common/bean/ListItemData'
-import { AvatarComponent } from '../userinfo/AvatarComponent'
-import { LogoutComponent } from '../userinfo/LogoutComponent'
-import { NickNameComponent } from '../userinfo/NickNameComponent'
-import { PasswordComponent } from '../userinfo/PasswordComponent'
-import { PetComponent } from '../userinfo/PetComponent'
-import { PhoneNumberComponent } from '../userinfo/PhoneNumberComponent'
+import { AvatarComponent } from './components/AvatarComponent'
+import { FeedbackComponent } from './components/FeedbackComponent'
+import { LogoutComponent } from './components/LogoutComponent'
+import { NickNameComponent } from './components/NickNameComponent'
+import { PasswordComponent } from './components/PasswordComponent'
+import { PetComponent } from './components/PetComponent'
+import { PhoneNumberComponent } from './components/PhoneNumberComponent'
 
 @Component
 export struct MineComponent {
@@ -30,6 +31,8 @@ export struct MineComponent {
         PasswordComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 我的宠物
         PetComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
+        // 反馈与建议
+        FeedbackComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
       }
     }.backgroundColor("#f1f3f5").height("100%")
   }

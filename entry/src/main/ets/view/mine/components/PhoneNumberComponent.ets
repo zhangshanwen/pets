@@ -1,4 +1,4 @@
-import { UserInfo } from '../../common/bean/ListItemData'
+import { UserInfo } from '../../../common/bean/ListItemData'
 
 @Component
 export struct PhoneNumberComponent {

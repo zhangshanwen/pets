@@ -14,17 +14,17 @@ struct PetsPage {
   @State form: PetListParam = new PetListParam();
   @State pets: Array<Pet> = []
   @State total: number = 0
-  @State isGetALl: boolean = false;
+  @State isGetAll: boolean = false;
 
   onPageShow() {
-    this.isGetALl = false
+    this.isGetAll = false
     this.pets = []
     this.form = new PetListParam()
     this.loadData()
   }
 
   loadData() {
-    if (this.isGetALl) {
+    if (this.isGetAll) {
       return
     }
     petList(this.form).then((res) => {
@@ -34,7 +34,7 @@ struct PetsPage {
 
       this.total = res.data.pagination.total
       if (this.form.page_index * this.form.page_size >= this.total) {
-        this.isGetALl = true
+        this.isGetAll = true
       }
     })
   }
