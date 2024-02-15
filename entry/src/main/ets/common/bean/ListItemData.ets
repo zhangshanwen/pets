@@ -39,6 +39,7 @@ export enum HomePageName {
 @Observed
 export class UserInfo {
   id: number;
+  username: string;
   phone_number: string;
   nick_name: string;
   sex: number;

@@ -9,22 +9,18 @@ export struct FeedbackComponent {
   }
 
   build() {
-    Row() {
+    Flex({ justifyContent: FlexAlign.SpaceBetween }) {
       Text() {
         Span('反馈与建议')
-      }.width("80%").onClick(() => {
-        this.clickFunc()
-      })
+      }.height("100%")
 
       Row() {
-        Blank()
-        ChevronRightIconComponent()
-      }.width("20%").onClick(() => {
-        this.clickFunc()
-      })
 
-    }.height("100%").onClick(() => {
+        ChevronRightIconComponent()
+      }.height("100%").align(Alignment.Center)
+    }.onClick(() => {
       this.clickFunc()
+
     })
   }
 }

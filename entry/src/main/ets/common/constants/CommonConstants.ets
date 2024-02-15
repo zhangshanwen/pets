@@ -186,6 +186,7 @@ export class CommonConstants {
    * Mine page url.
    */
   static readonly LOGIN_PAGE_URL: string = 'pages/LoginPage';
+  static readonly REGISTER_PAGE_URL: string = 'pages/RegisterPage';
   static readonly HOME_PAGE_URL: string = 'pages/HomePage';
   static readonly PETS_PAGE_URL: string = 'pages/PetsPage';
   static readonly PET_SAVE_PAGE_URL: string = 'pages/PetSavePage';

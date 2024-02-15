@@ -2,7 +2,7 @@ import router from '@ohos.router';
 import { getUser } from '../api/user';
 import { UserInfo } from '../common/bean/ListItemData';
 import { CommonConstants } from '../common/constants/CommonConstants';
-import { readFile, writeFile } from './file'
+import { readFile, removeFile, writeFile } from './file'
 
 const UserInfoKey = 'user_info'
 const AuthorizationKey = 'authorization'
@@ -16,6 +16,15 @@ export function saveAuthorization(token: string, refreshToken: string) {
   writeFile(RefreshTokenKey, refreshToken)
 
 }
+
+export function DelAuthorization() {
+  AppStorage.Delete(AuthorizationKey)
+  AppStorage.Delete(RefreshTokenKey)
+  removeFile(AuthorizationKey)
+  removeFile(RefreshTokenKey)
+
+}
+
 
 export function getAuthorization(): string {
   let token: string = AppStorage.Get(AuthorizationKey)

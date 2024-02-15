@@ -6,6 +6,7 @@ import { NickNameComponent } from './components/NickNameComponent'
 import { PasswordComponent } from './components/PasswordComponent'
 import { PetComponent } from './components/PetComponent'
 import { PhoneNumberComponent } from './components/PhoneNumberComponent'
+import { UsernameComponent } from './components/UsernameComponent'
 
 @Component
 export struct MineComponent {
@@ -25,8 +26,10 @@ export struct MineComponent {
         AvatarComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 昵称
         NickNameComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
-        // 手机号
-        PhoneNumberComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
+        // // 手机号
+        // PhoneNumberComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
+        //用户名
+        UsernameComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 密码
         PasswordComponent().height("10%").backgroundColor("#66FFFFFF").margin({ top: "1vp" })
         // 我的宠物

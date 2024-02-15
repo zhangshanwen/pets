@@ -16,32 +16,21 @@ export struct PasswordComponent {
   }
 
   build() {
-    Row() {
+
+    Flex({ justifyContent: FlexAlign.SpaceBetween }) {
       Text() {
         Span('密码')
-      }.width("80%").onClick(() => {
-        this.clickFunc()
-      })
-
+      }.height("100%")
 
       Row() {
         Text() {
           Span(this.user.has_password ? "已设置" : "未设置")
-
-        }
-
-        Blank()
+        }.height("100%")
 
         ChevronRightIconComponent()
-      }.width("20%").onClick(() => {
-        this.clickFunc()
-      })
-
-    }.height("100%").onClick(() => {
-      router.pushUrl({
-        url: CommonConstants.SET_PASSWORD_PAGE_URL,
-        params: { hasPassword: this.user.has_password }
-      })
+      }.height("100%").align(Alignment.Center)
+    }.onClick(() => {
+      this.clickFunc()
     })
   }
 }

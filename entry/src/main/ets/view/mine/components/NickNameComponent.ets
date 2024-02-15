@@ -15,23 +15,22 @@ export struct NickNameComponent {
   }
 
   build() {
-    Row() {
+
+    Flex({ justifyContent: FlexAlign.SpaceBetween }) {
       Text() {
         Span('昵称')
-      }.width("75%").onClick(() => {
-        this.clickFunc()
-      })
+      }.height("100%")
+
       Row() {
         Text() {
           Span(this.user.nick_name)
-        }
-        Blank()
-        ChevronRightIconComponent()
-      }.width("25%").onClick(() => {
-        this.clickFunc()
-      })
+        }.height("100%").onClick(() => {
+          this.clickFunc()
+        })
 
-    }.height("100%").onClick(()=>{
+        ChevronRightIconComponent()
+      }.height("100%").align(Alignment.Center)
+    }.onClick(() => {
       this.clickFunc()
     })
   }

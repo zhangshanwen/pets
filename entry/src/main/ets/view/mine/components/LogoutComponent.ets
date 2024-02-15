@@ -1,5 +1,5 @@
 import { userLogout } from '../../../api/user'
-import { saveAuthorization } from '../../../utils/user'
+import { DelAuthorization, saveAuthorization } from '../../../utils/user'
 import router from '@ohos.router'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 
@@ -11,7 +11,7 @@ export struct LogoutComponent {
         Span("登出")
       }.onClick(() => {
         userLogout().then(() => {
-          saveAuthorization("", "")
+          DelAuthorization()
           router.pushUrl({ url: CommonConstants.LOGIN_PAGE_URL })
         }).catch()
       })

@@ -1,8 +1,9 @@
 import { pickPhoto } from '../utils/media'
 import router from '@ohos.router'
-import { getMediaIds, uploadMedia } from '../api/media'
+import { getMediaIds, uploadByAli } from '../api/media'
 import { DialogShow } from '../utils/dialog'
 import { feedbackCreate } from '../api/feedback'
+import { getFileSteam } from '../utils/file'
 
 @Entry
 @Component
@@ -34,11 +35,13 @@ struct FeedbackPage {
             return
           }
           var uriArr = this.imagesColumn.filter((item) => item != "add")
-          let file_ids: Array<string>;
-          if(uriArr.length>0){
-            const resp = await  getMediaIds({ num: uriArr.length })
-            file_ids = resp.data.file_ids.map((item) => item + ".jpg")
-            await uploadMedia(uriArr, file_ids)
+          let file_ids: Array<any>;
+          if (uriArr.length > 0) {
+            const resp = await  getMediaIds({ num: uriArr.length, bucket_type: 0 })
+            file_ids = resp.data.list
+            for (let i = 0; i < resp.data.list.length; i++) {
+              await uploadByAli(resp.data.list[i].upload_url, getFileSteam(uriArr[i]))
+            }
           }
           await feedbackCreate({ content: this.text, file_ids: file_ids })
           router.back()

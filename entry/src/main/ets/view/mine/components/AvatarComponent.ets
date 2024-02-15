@@ -1,7 +1,7 @@
-import { getMediaIds } from '../../../api/media'
+import { getMediaIds, uploadByAli } from '../../../api/media'
 import { uploadAvatar } from '../../../api/user'
 import { UserInfo } from '../../../common/bean/ListItemData'
-import { copyUriFileToInternalUri } from '../../../utils/file'
+import { copyUriFileToInternalUri, getFileSteam } from '../../../utils/file'
 import { pickPhoto } from '../../../utils/media'
 
 @Component
@@ -10,29 +10,28 @@ export struct AvatarComponent {
   @State num: number = 1
 
   build() {
-    Row() {
+
+    Flex({ justifyContent: FlexAlign.SpaceBetween }) {
       Text() {
         Span('头像')
-      }.width("80%")
+      }.height("100%")
 
-      Row() {
-        Image(this.user.avatar).objectFit(ImageFit.Contain).onClick(async () => {
-          let uri;
-          await pickPhoto(this.num).then(res => {
-            uri = res.photoUris[0]
-          }).catch(() => {
-          })
-          getMediaIds({ num: this.num }).then((resp) => {
-            // 获取到fileId
-            let file_ids = resp.data.file_ids
-            const fileName = `${file_ids[0]}.jpeg`
-            copyUriFileToInternalUri(uri, fileName)
-            uploadAvatar(fileName).then(() => {
-              this.user.avatar = uri
-            })
-          })
+      Image(this.user.avatar).objectFit(ImageFit.Contain).onClick(async () => {
+        let uri;
+        await pickPhoto(this.num).then(res => {
+          uri = res.photoUris[0]
+        }).catch(() => {
         })
-      }.width("20%")
-    }.height("100%")
+        getMediaIds({ num: this.num, bucket_type: 1 }).then(async (resp) => {
+          // 获取到fileId
+          let item = resp.data.list[0]
+          const stream = getFileSteam(uri)
+          await uploadByAli(item.upload_url, stream)
+          await uploadAvatar({ fileName: item.file_id })
+          this.user.avatar = uri
+
+        })
+      }).height("100%")
+    }
   }
 }

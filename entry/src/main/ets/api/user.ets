@@ -1,5 +1,4 @@
 import instance from '../utils/http/axios'
-import { upload } from './media'
 
 
 /**
@@ -44,13 +43,23 @@ export function getUser() {
  * @param userId
  * @returns
  */
-export function registerUser(data) {
+export function registerUser(data: {
+  username: string,
+  password: string
+}) {
   return instance.post(`v1/user/register`, data)
 }
 
 
-export function uploadAvatar(fileName: string) {
-  return upload("v1/user/avatar", fileName)
+export function userLoginByUsername(data: {
+  username: string,
+  password: string
+}) {
+  return instance.post(`v1/user/login/username`, data)
+}
+
+export function uploadAvatar(data: { fileName: string }) {
+  return instance.post("v1/user/avatar", data)
 }
 
 export function userLogout() {

@@ -8,6 +8,7 @@ import { getAuthorization, getRefreshToken, saveAuthorization } from '../user';
 const refreshUri = "v1/user/refresh"
 const instance = axios.create({
   baseURL: "http://120.27.193.144:17017/api/"
+  // baseURL: "http://192.168.1.3:17017/api/"
 });
 
 

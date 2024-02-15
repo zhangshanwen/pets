@@ -3,11 +3,12 @@ import router from '@ohos.router'
 import { Pet, selectOptions } from '../common/bean/ListItemData'
 import { petList } from '../api/pet'
 import { PetListParam } from '../common/param/PetParam'
-import { getMediaIds, uploadMedia } from '../api/media'
+import { getMediaIds, uploadByAli } from '../api/media'
 import { articleCreate } from '../api/article'
 import { CommonConstants } from '../common/constants/CommonConstants'
 import { ArticleSelectPetsComponent } from '../view/article/ArticleSelectPetsComponent'
 import { DialogShow } from '../utils/dialog'
+import { getFileSteam } from '../utils/file'
 
 @Entry
 @Component
@@ -24,6 +25,7 @@ struct ArticleSavePage {
   @State category: string = '日常'
   @State categoriesOptions: Array<SelectOption> = [{ value: '日常' }, { value: '经验' }]
   @State selectUri: any = ""
+  @State saveEnable: boolean = true
   @State selectedPets: Array<Pet> = []
   dialogController: CustomDialogController = new CustomDialogController({
     builder: ArticleSelectPetsComponent({
@@ -69,6 +71,8 @@ struct ArticleSavePage {
           .fontWeight(500)
         Blank()
         Button("保存", { type: ButtonType.Capsule, stateEffect: true }).onClick(async () => {
+          console.log("点击报错")
+          var uriArr = this.imagesColumn.filter((item) => item != "add")
           if (!this.text) {
             DialogShow("错误", "请输入内容")
             return
@@ -77,20 +81,21 @@ struct ArticleSavePage {
             DialogShow("错误", "至少上传一张图片")
             return
           }
-          var uriArr = this.imagesColumn.filter((item) => item != "add")
-          let file_ids: Array<string>;
-          const resp = await  getMediaIds({ num: uriArr.length })
-          file_ids = resp.data.file_ids.map((item) => item + ".jpg")
-          await uploadMedia(uriArr, file_ids)
+          console.log("校验成功")
+          this.saveEnable = false
+          const resp = await  getMediaIds({ num: uriArr.length, bucket_type: 0 })
+          for (let i = 0; i < resp.data.list.length; i++) {
+            await uploadByAli(resp.data.list[i].upload_url, getFileSteam(uriArr[i]))
+          }
           await articleCreate({
             content: this.text,
-            file_ids: file_ids,
+            file_ids: resp.data.list,
             pet_ids: this.selectedPets.map(item => item.id),
             category: this.getUploadCategory()
           })
           router.pushUrl({ url: CommonConstants.HOME_PAGE_URL, params: { category: "0" } })
         })
-      }.width("100%").height("10%")
+      }.width("100%").height("10%").enabled(this.saveEnable)
 
 
       Row() {

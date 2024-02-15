@@ -12,21 +12,17 @@ export struct PetComponent {
   }
 
   build() {
-    Row() {
+
+
+    Flex({ justifyContent: FlexAlign.SpaceBetween }) {
       Text() {
         Span('我的宠物')
-      }.width("80%").onClick(() => {
-        this.clickFunc()
-      })
+      }.height("100%")
 
       Row() {
-        Blank()
         ChevronRightIconComponent()
-      }.width("20%").onClick(() => {
-        this.clickFunc()
-      })
-
-    }.height("100%").onClick(() => {
+      }.height("100%").align(Alignment.Center)
+    }.onClick(() => {
       this.clickFunc()
     })
   }

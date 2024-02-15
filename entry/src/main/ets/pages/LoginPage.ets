@@ -1,4 +1,5 @@
 import MediaQueryModel from '../model/MediaQueryModel';
+import { LoginByUsernameComponent } from '../view/login/LoginByUserNameComponent';
 import { LoginComponent } from '../view/login/LoginComponent';
 
 
@@ -25,9 +26,8 @@ struct LoginPage {
 
       Scroll() {
         Column() {
-          LoginComponent()
-
-
+          // LoginComponent()
+          LoginByUsernameComponent()
         }
         .height('100%')
         .constraintSize({ minHeight: '304vp' })

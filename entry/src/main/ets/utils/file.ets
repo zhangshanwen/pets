@@ -22,6 +22,15 @@ export function copyUriFileToInternalUri(uri: string, fileId: string) {
   return
 }
 
+
+export function getFileSteam(uri: string) {
+  var file = fs.openSync(uri, fs.OpenMode.READ_ONLY);
+  let stat = fs.statSync(file.fd);
+  let buf = new ArrayBuffer(stat.size);
+  fs.readSync(file.fd, buf)
+  return buf
+}
+
 export function copyUrisFileToInternalUri(uris: Array<string>, fileIds: Array<string>) {
   let context = getContext(this) as common.UIAbilityContext;
   for (let i = 0; i < uris.length; i++) {
@@ -40,4 +49,10 @@ export function writeFile(filename: string, content: string) {
   let file = fs.openSync(filesDir + "/" + filename, fs.OpenMode.WRITE_ONLY | fs.OpenMode.CREATE)
   fs.writeSync(file.fd, content, { offset: 0 });
   fs.closeSync(file);
+}
+
+export function removeFile(filename: string) {
+  let context = getContext(this) as common.UIAbilityContext;
+  let filesDir = context.filesDir;
+  fs.rmdirSync(filesDir + "/" + filename)
 }

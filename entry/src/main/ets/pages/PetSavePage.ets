@@ -7,6 +7,8 @@ import { SelectComponent } from '../view/components/SelectComponent';
 import { Pet } from '../common/bean/ListItemData';
 import { petCreate, petDelete, petEdit, petUploadAvatar } from '../api/pet';
 import { DialogShow } from '../utils/dialog';
+import { getFileSteam } from '../utils/file';
+import { uploadByAli } from '../api/media';
 
 
 @Entry
@@ -19,6 +21,8 @@ struct PetSavePage {
   @State intro: string = ''
   @State birthDate: number = 0
   @State avatar: string = ''
+  @State uri: string = ''
+  @State uploadUrl: string = ''
   @State fileId: string = ''
   @State selectOptions: Array<SelectOption> = [{ value: "保密" }, { value: "弟弟" }, { value: "妹妹" }]
   @State selectIndex: number = 0
@@ -41,7 +45,9 @@ struct PetSavePage {
       // 先创建宠物
       petCreate({ nick_name: this.nickName, intro: this.intro, birth_date: this.birthDate, sex: this.selectIndex })
         .then(async (res) => {
-          await petUploadAvatar(res.data.id, this.fileId)
+          const stream = getFileSteam(this.uri)
+          await uploadByAli(this.uploadUrl, stream)
+          await petUploadAvatar(res.data.id, { file_name: this.fileId })
           setTimeout(() => {
             router.back()
           }, 500)
@@ -53,8 +59,10 @@ struct PetSavePage {
         birth_date: this.birthDate,
         sex: this.selectIndex
       }).then(async (res) => {
-        if (this.pet.file_id != this.fileId) {
-          await petUploadAvatar(this.pet.id, this.fileId)
+        if (this.pet.file_id != this.fileId && this.fileId != '') {
+          const stream = getFileSteam(this.uri)
+          await uploadByAli(this.uploadUrl, stream)
+          await petUploadAvatar(this.pet.id, { file_name: this.fileId })
         }
         setTimeout(() => {
           router.back()
@@ -90,17 +98,21 @@ struct PetSavePage {
             this.save()
           }).fontColor(Color.Blue).backgroundColor(0xffffff)
             .margin({ right: 10 })
-          Button("删除").onClick(() => {
-            petDelete(this.pet.id).then(() => {
-              router.back()
-            })
-          }).backgroundColor(0xffffff).fontColor(Color.Red).margin({ right: 10 })
+          if (!this.isCreate) {
+            Button("删除").onClick(() => {
+              petDelete(this.pet.id).then(() => {
+                router.back()
+              })
+            }).backgroundColor(0xffffff).fontColor(Color.Red).margin({ right: 10 })
+          }
         }.width("30%")
       }.height('56vp').align(Alignment.Start).width("100%")
 
 
       //头像
-      AvatarUploadComponent({ avatar: $avatar, fileId: $fileId }).height("10%").margin({ top: "10vp" })
+      AvatarUploadComponent({ avatar: $avatar, fileId: $fileId, uri: $uri, uploadUrl: $uploadUrl })
+        .height("10%")
+        .margin({ top: "10vp" })
 
       // 昵称
       EditInputComponent({ text: "昵称", placeholder: "请输入昵称", value: $nickName }).margin({ top: "10vp" })
